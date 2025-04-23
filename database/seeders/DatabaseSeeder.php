@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-        if ($this->command->confirm('¿Desea actualizar la migración antes de sembrar? Borrará todos los datos antiguos?')) {
+        if ($this->command->confirm('¿Desea actualizar la migración antes de sembrar? Borrará todos los datos antiguos? [y|N]', true)) {
             $this->command->call('migrate:fresh');
             $this->command->warn("Datos borrados, Iniciando la base de datos en blanco.");
             }
