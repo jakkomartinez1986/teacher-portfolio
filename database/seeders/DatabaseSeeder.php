@@ -73,8 +73,8 @@ class DatabaseSeeder extends Seeder
           
           
            $this->call([
-             SchoolSeeder::class,
-            // DataPrincipalSeeder::class,
+             //SchoolSeeder::class,
+             DataPrincipalSeeder::class,
             // GradeSeeder::class,
             // DepartamentSeeder::class,
             // SubjectSeeder::class,
