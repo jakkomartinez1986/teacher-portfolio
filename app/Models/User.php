@@ -4,9 +4,12 @@ namespace App\Models;
 
 use Illuminate\Support\Str;
 use App\Models\Document\Document;
+use App\Models\Settings\Area\Subject;
+use App\Models\Settings\School\Grade;
 use App\Models\Settings\School\School;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
+use App\Models\System\Teacher\ClassSchedule;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -118,9 +121,9 @@ class User extends Authenticatable //implements MustVerifyEmail
     public static function search($query)
     {
         return empty($query) ? static::query()
-            : static::where('name', 'like', '%'.strtoupper($query).'%')
-                ->orWhere('lastname', 'like', '%'.strtoupper($query).'%')
-                ->orWhere('email', 'like', '%'.$query.'%');
+            : static::where('name', 'ilike', '%'.strtoupper($query).'%')
+                ->orWhere('lastname', 'ilike', '%'.strtoupper($query).'%')
+                ->orWhere('email', 'ilike', '%'.$query.'%');
     }
       // Relación con School
       public function school()
@@ -145,5 +148,28 @@ class User extends Authenticatable //implements MustVerifyEmail
                 ->withPivot(['role_id', 'status', 'comments', 'signed_at']);
     }
    
-    
+    // En el modelo User
+    public function taughtSubjects()
+    {
+        return $this->hasManyThrough(
+            Subject::class,
+            ClassSchedule::class,
+            'teacher_id', // FK en class_schedules
+            'id', // FK en subjects
+            'id', // Local key en users
+            'subject_id' // Local key en class_schedules
+        )->distinct();
+    }
+
+    public function taughtGrades()
+    {
+        return $this->hasManyThrough(
+            Grade::class,
+            ClassSchedule::class,
+            'teacher_id', // FK en class_schedules
+            'id', // FK en grades
+            'id', // Local key en users
+            'grade_id' // Local key en class_schedules
+        )->distinct();
+    }
 }

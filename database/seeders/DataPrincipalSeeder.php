@@ -80,7 +80,7 @@ class DataPrincipalSeeder extends Seeder
                     ['nivel_name' => 'Bachillerato_Técnico_Com', 'status' => 1],
                     ['nivel_name' => 'Bachillerato_Técnico_Dep', 'status' => 1],                  
                 ];
-    
+    //strtoupper(
                 foreach ($niveles as $nivelData) {
                     $nivel = Nivel::firstOrCreate([
                         'shift_id' => $shift->id,

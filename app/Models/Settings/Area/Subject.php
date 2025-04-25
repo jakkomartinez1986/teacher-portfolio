@@ -27,8 +27,9 @@ class Subject extends Model
     public static function search($query)
     {
         return empty($query) ? static::query()
-            : static::where('subject_name', 'like', '%'.strtoupper($query).'%');
+            : static::where('subject_name', 'ilike', '%'.strtoupper($query).'%');
     }
+   
     public function documents()
     {
         return $this->belongsToMany(Document::class, 'document_subject_grade')

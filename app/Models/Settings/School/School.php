@@ -58,7 +58,7 @@ class School extends Model
     public static function search($query)
     {
         return empty($query) ? static::query()
-            : static::where('name_school', 'like', '%'.strtoupper($query).'%')
-                ->orWhere('distrit', 'like', '%'.strtoupper($query).'%');
+            : static::where('name_school', 'ilike', '%'.strtoupper($query).'%')
+                ->orWhere('distrit', 'ilike', '%'.strtoupper($query).'%');
     }
 }

@@ -5,6 +5,7 @@ namespace App\Livewire\System\Teacher;
 use Livewire\Component;
 use App\Models\Settings\Area\Area;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Settings\Area\Subject;
 use App\Models\Settings\School\Grade;
 use App\Models\Settings\School\Nivel;
 use App\Models\Settings\School\Shift;
@@ -152,6 +153,19 @@ class TeacherScheduleForm extends Component
         if ($this->editMode) {
             $horario = ClassSchedule::findOrFail($this->horarioId);
             $horario->update($data);
+            $subject=Subject::find($this->selectedSubject);
+            $user=Auth::user();           
+            if(strtoupper($subject->subject_name) == strtoupper('Acompañamiento integral en el aula')){
+                if (!$user->hasRole('TUTOR')) {
+                    $user->assignRole('TUTOR');
+                }
+                
+                if (!$user->hasRole('DOCENTE')) {
+                    $user->assignRole('DOCENTE');
+                }             
+            }               
+           
+
             $this->dispatch('swal',[
                 'title'=>'Actualizado!',
                 'text'=>'Modelo Horario con ID '.$horario->id.' Actualizado Correctamente!',
@@ -159,6 +173,17 @@ class TeacherScheduleForm extends Component
               ]);
         
         } else {
+            $subject=Subject::find($this->selectedSubject);
+            $user=Auth::user();           
+            if(strtoupper($subject->subject_name) == strtoupper('Acompañamiento integral en el aula')){
+                if (!$user->hasRole('TUTOR')) {
+                    $user->assignRole('TUTOR');
+                }
+                
+                if (!$user->hasRole('DOCENTE')) {
+                    $user->assignRole('DOCENTE');
+                }             
+            }          
             $horarioAc=ClassSchedule::create($data);
             $this->dispatch('swal',[
                 'title'=>'Creado!',

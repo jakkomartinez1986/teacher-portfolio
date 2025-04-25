@@ -43,10 +43,9 @@
                 
                 <!-- Acciones -->
                 <div class="ml-auto flex gap-2 sm:gap-3">
-                   
-                    <flux:button 
-                        href="{{ route('academic.teacher-schedule.edit', $horario->id) }}" 
-                        icon="pencil" 
+                     <flux:button 
+                        href="{{ route('settings.grades.show',$horario->grade) }}" 
+                        icon="eye" 
                         color="primary" >                      
                     </flux:button>
                     <flux:button 

@@ -33,6 +33,6 @@ class Nivel extends Model
     public static function search($query)
     {
         return empty($query) ? static::query()
-            : static::where('nivel_name', 'like', '%'.strtoupper($query).'%');
+            : static::where('nivel_name', 'ilike', '%'.strtoupper($query).'%');
     }
 }

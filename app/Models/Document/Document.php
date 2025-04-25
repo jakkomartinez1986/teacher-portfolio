@@ -78,7 +78,7 @@ class Document extends Model
     public static function search($query)
     {
         return empty($query) ? static::query()
-            : static::where('title', 'like', '%'.strtoupper($query).'%')
-                ->orWhere('description', 'like', '%'.strtoupper($query).'%');
+            : static::where('title', 'ilike', '%'.strtoupper($query).'%')
+                ->orWhere('description', 'ilike', '%'.strtoupper($query).'%');
     }
 }

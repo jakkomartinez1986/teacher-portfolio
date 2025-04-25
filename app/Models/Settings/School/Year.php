@@ -41,7 +41,7 @@ class Year extends Model
     public static function search($query)
     {
         return empty($query) ? static::query()
-            : static::where('year_name', 'like', '%'.strtoupper($query).'%');
+            : static::where('year_name', 'ilike', '%'.strtoupper($query).'%');
     }
 
 }

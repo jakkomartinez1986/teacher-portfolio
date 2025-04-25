@@ -25,7 +25,7 @@ class DocumentCategory extends Model
     public static function search($query)
     {
         return empty($query) ? static::query()
-            : static::where('name', 'like', '%'.strtoupper($query).'%')
-                ->orWhere('description', 'like', '%'.strtoupper($query).'%');
+            : static::where('name', 'ilike', '%'.strtoupper($query).'%')
+                ->orWhere('description', 'ilike', '%'.strtoupper($query).'%');
     }
 }

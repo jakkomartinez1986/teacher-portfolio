@@ -24,6 +24,6 @@ class Area extends Model
     public static function search($query)
     {
         return empty($query) ? static::query()
-            : static::where('area_name', 'like', '%'.strtoupper($query).'%');
+            : static::where('area_name', 'ilike', '%'.strtoupper($query).'%');
     }
 }

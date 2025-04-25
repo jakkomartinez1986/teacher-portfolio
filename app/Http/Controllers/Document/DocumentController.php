@@ -39,20 +39,52 @@ class DocumentController extends Controller
     /**
      * Show the form for creating a new resource.
      */
+    // public function create()
+    // {
+    //     $autuser= Auth::user();
+    //     $types = DocumentType::all();
+    //     $years = Year::all();
+    //     $trimesters = Trimester::all();
+    //     $subjects = Subject::all();
+    //     $grades = Grade::all();
+    //     $users = User::where('status', true)->get();
+
+    //     return view('pages.document.document.create-edit', compact(
+    //         'types', 'years', 'trimesters', 'subjects', 'grades', 'users'
+    //     ));
+    // }
     public function create()
     {
-        $types = DocumentType::all();
-        $years = Year::all();
-        $trimesters = Trimester::all();
-        $subjects = Subject::all();
-        $grades = Grade::all();
-        $users = User::where('status', true)->get();
-
-        return view('pages.document.document.create-edit', compact(
-            'types', 'years', 'trimesters', 'subjects', 'grades', 'users'
-        ));
+        $authUser = Auth::user();
+        
+        // Datos básicos
+        $data = [
+            'types' => DocumentType::all(),
+            'years' => Year::all(),
+            'trimesters' => Trimester::all(),
+            'users' => User::where('status', true)
+            ->whereHas('roles', function ($query) {
+                $query->where('name', 'DOCENTE');
+            })
+            ->get(),
+        ];
+        
+        // Verificar si es profesor con horario
+        if ($authUser->hasRole('DOCENTE')) {
+            $data['subjects'] = $authUser->taughtSubjects()->get();
+            $data['grades'] = $authUser->taughtGrades()->get();
+            
+            // Si no tiene asignaturas/grados, mostrar todos
+            if ($data['subjects']->isEmpty()) $data['subjects'] = Subject::all();
+            if ($data['grades']->isEmpty()) $data['grades'] = Grade::all();
+        } else {
+            // Para no profesores, mostrar todos
+            $data['subjects'] = Subject::all();
+            $data['grades'] = Grade::all();
+        }
+        
+        return view('pages.document.document.create-edit', $data);
     }
-
     /**
      * Store a newly created resource in storage.
      */

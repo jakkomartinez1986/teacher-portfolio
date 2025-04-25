@@ -147,10 +147,11 @@ class DocumentTypeController extends Controller
         $validated['frequency'] = $validated['frequency'] ? strtoupper($validated['frequency']) : null;
 
         // Asegurar valores booleanos
-        $validated['requires_director'] = $request->has('requires_director');
-        $validated['requires_vice_principal'] = $request->has('requires_vice_principal');
-        $validated['requires_principal'] = $request->has('requires_principal');
-        $validated['requires_dece'] = $request->has('requires_dece');
+         // Asegurar valores booleanos (false cuando no están presentes)
+         $validated['requires_director'] = $request->boolean('requires_director');
+         $validated['requires_vice_principal'] = $request->boolean('requires_vice_principal');
+         $validated['requires_principal'] = $request->boolean('requires_principal');
+         $validated['requires_dece'] = $request->boolean('requires_dece');
 
         $documentType->update($validated);
 

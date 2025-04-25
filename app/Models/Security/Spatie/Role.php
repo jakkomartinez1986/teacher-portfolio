@@ -15,7 +15,7 @@ class Role extends SpatieRole
     public static function search($query)
     {
         return empty($query) ? static::query()
-            : static::where('name', 'like', '%'.strtoupper($query).'%');
+            : static::where('name', 'ilike', '%'.strtoupper($query).'%');
     }
     public function defaultRolePhotoUrl()
     {
