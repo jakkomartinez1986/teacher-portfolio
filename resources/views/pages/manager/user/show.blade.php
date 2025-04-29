@@ -17,7 +17,7 @@
                 <!-- Información principal -->
                 <div class="space-y-4">
                     <div class="flex flex-col items-center">
-                        <img src="{{ $user->defaultUserPhotoUrl() }}" 
+                        <img src="{{ asset('storage/' .$user->defaultUserPhotoUrl() ) }}" 
                              alt="Foto de perfil" 
                              class="h-24 w-24 rounded-full object-cover mb-4">
                         <h3 class="text-lg font-medium text-neutral-800 dark:text-neutral-200">{{ $user->full_name }}</h3>

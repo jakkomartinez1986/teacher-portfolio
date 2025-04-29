@@ -264,7 +264,7 @@
                         @enderror
                         @if(isset($user) && $user->profile_photo_path)
                             <div class="mt-2 flex items-center gap-4">
-                                <img src="{{ $user->defaultUserPhotoUrl() }}" 
+                                <img src="{{  asset('storage/' .$user->defaultUserPhotoUrl() ) }}" 
                                      alt="Foto actual" 
                                      class="h-16 w-16 rounded-full object-cover">
                                 <label class="flex items-center gap-2 text-sm">
@@ -288,7 +288,7 @@
                         @enderror
                         @if(isset($user) && $user->signature_photo_path)
                             <div class="mt-2 flex items-center gap-4">
-                                <img src="{{ $user->defaultSignaturePhotoUrl() }}" 
+                                <img src="{{  asset('storage/' .$user->defaultSignaturePhotoUrl()) }}" 
                                      alt="Firma actual" 
                                      class="h-16 w-32 object-contain">
                                 <label class="flex items-center gap-2 text-sm">

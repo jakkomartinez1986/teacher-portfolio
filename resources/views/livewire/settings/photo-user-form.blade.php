@@ -16,9 +16,9 @@ new class extends Component {
 <section class="mt-10 space-y-6">   
     {{-- <div class="mt-5 w-full max-w-lg"> --}}
         <form wire:submit="save" class="my-6 w-full space-y-6">
-            <flux:avatar circle src="{{ Auth::user()->defaultUserPhotoUrl() }}"/>
+            <flux:avatar circle badge badge:color="green" src="{{ asset('storage/' .Auth::user()->defaultUserPhotoUrl() )}}"/>
             <flux:input type="file" wire:model="photo" label="Foto Perfil"/>
-            <flux:avatar badge badge:color="green" badge:circle src="{{ Auth::user()->defaultSignaturePhotoUrl() }}" />
+            <flux:avatar badge badge:color="green" badge:circle src="{{asset('storage/' . Auth::user()->defaultSignaturePhotoUrl()) }}" />
             <flux:input type="file" wire:model="signature" label="Foto Firma"/>
             <div class="flex items-center gap-4">
                 <div class="flex items-center justify-end">
