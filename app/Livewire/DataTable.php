@@ -56,15 +56,15 @@ class DataTable extends Component
         $this->sortField = $field;
     }
 
-    public function openNewModal()
-    {
-        if ($this->useModal) {
-            $modelName = $this->getModelName();
-            $this->dispatch('openModalFor', $modelName);
-        } else {
-            return redirect()->route($this->newRoute);
-        }
-    }
+    // public function openNewModal()
+    // {
+    //     if ($this->useModal) {
+    //         $modelName = $this->getModelName();
+    //         $this->dispatch('openModalFor', $modelName);
+    //     } else {
+    //         return redirect()->route($this->newRoute);
+    //     }
+    // }
 
     public function toggleActivation($id)
     {
@@ -139,9 +139,19 @@ class DataTable extends Component
         if ($this->getModelName() === 'file') {
             $query->where('user_id', Auth::id());
         }
-
-        $data = $query->orderBy($this->sortField, $this->sortDirection)
+        if ($this->getModelName() === 'user') {
+            $data = $query
+            ->whereDoesntHave('roles', function ($q) {
+                $q->where('name', 'ESTUDIANTE');
+            })
+            ->orderBy($this->sortField, $this->sortDirection)
+            ->paginate($this->perPage);
+        }else {
+            $data = $query->orderBy($this->sortField, $this->sortDirection)
                       ->paginate($this->perPage);
+        }
+
+       
 
         return view('livewire.data-table', ['data' => $data]);
     }

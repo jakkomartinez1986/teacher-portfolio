@@ -18,6 +18,7 @@ class School extends Model
         'email',
         'website',
         'logo_path',
+        'status',
     ];
     protected $appends = ['logo_url'];
     

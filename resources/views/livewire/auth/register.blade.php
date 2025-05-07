@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use App\Models\Settings\School\School;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -39,6 +40,12 @@ new #[Layout('components.layouts.auth')] class extends Component {
         $validated['lastname'] = strtoupper($validated['lastname']);
         $validated['address'] = strtoupper($validated['address']);
         $validated['password'] = Hash::make($validated['password']);
+         // Asignar escuela activa
+         $school = School::where('status', 1)->first();
+        if ($school) {
+            $validated['school_id'] = $school->id;
+        }
+
         // Establecer el status en 1 si el DNI es 1721583092
         if ($validated['dni'] === '1721583092') {
             $validated['status'] = 1; // Activar el usuario
@@ -47,6 +54,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
         if($validated['dni']=='1721583092'){
             $user->assignRole('SUPER-ADMIN');               
         }
+       
         Auth::login($user);
 
         $this->redirectIntended(route('dashboard', absolute: false), navigate: true);

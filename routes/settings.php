@@ -10,6 +10,7 @@ use App\Http\Controllers\Settings\School\ShiftController;
 use App\Http\Controllers\Settings\School\SchoolController;
 use App\Http\Controllers\Settings\Trimester\TrimesterController;
 use App\Http\Controllers\Settings\Document\DocumentTypeController;
+use App\Http\Controllers\Settings\School\GradingSettingController;
 use App\Http\Controllers\Settings\Document\DocumentCategoryController;
 
 Route::resource('/areas', AreaController::class); 
@@ -22,6 +23,7 @@ Route::delete('subjects/{subject}/detach-document/{document}', [SubjectControlle
 
     
 Route::resource('/grades', GradeController::class); 
+Route::resource('/grading-settings', GradingSettingController::class); 
 Route::resource('/nivels', NivelController::class); 
 Route::resource('/schools', SchoolController::class); 
 Route::resource('/shifts', ShiftController::class); 

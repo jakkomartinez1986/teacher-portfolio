@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('email')->nullable(); // Correo electrónico
             $table->string('website')->nullable(); // Sitio web
             $table->string('logo_path')->nullable(); // Ruta del logo
-
+            $table->integer('status')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

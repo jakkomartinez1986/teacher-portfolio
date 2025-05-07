@@ -58,7 +58,7 @@ class SchoolController extends Controller
             $path = $request->file('logo')->store('schools/logos', 'public');
             $validated['logo_path'] = $path;
         }
-
+        $validated['status'] = 1; // Activo por defecto
         School::create($validated);
 
         return redirect()->route('settings.schools.index')

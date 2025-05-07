@@ -44,6 +44,7 @@ class DataPrincipalSeeder extends Seeder
             'email' => 'info@uevicenteleon.com',
             'website' => 'https://uevicenteleon.com',
             'logo_path' => 'app-resources/img/logos/ue-vicente-leon.jpg',
+            'status' => 1,
         ]);
         
 
@@ -304,19 +305,19 @@ class DataPrincipalSeeder extends Seeder
                 'trimester_name' => 'Primer Trimestre',
                 'start_date' => Carbon::create(2024, 8, 1),
                 'end_date' => Carbon::create(2024, 12, 20),
-                'status' => 0
+                'status' => 1
             ],
             [
                 'trimester_name' => 'Segundo Trimestre',
                 'start_date' => Carbon::create(2024, 12, 21),
-                'end_date' => Carbon::create(2024, 3, 29),
-                'status' => 0
+                'end_date' => Carbon::create(2025, 3, 29),
+                'status' => 1
             ],
             [
                 'trimester_name' => 'Tercer Trimestre',
                 'start_date' => Carbon::create(2024, 4, 1),
-                'end_date' => Carbon::create(2024, 7, 31),
-                'status' => 0
+                'end_date' => Carbon::create(2025, 7, 31),
+                'status' => 1
             ]
         ];
 

@@ -24,6 +24,7 @@ class SchoolSeeder extends Seeder
             'email' => 'info@uevicenteleon.com',
             'website' => 'https://uevicenteleon.com',
             'logo_path' => 'app-resources/img/logos/ue-vicente-leon.jpg',
+            'status' => 1,
         ]);
     }
 }

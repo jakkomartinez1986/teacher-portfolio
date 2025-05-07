@@ -7,6 +7,7 @@ use App\Models\Document\Document;
 use App\Models\Settings\Area\Subject;
 use App\Models\Settings\School\Grade;
 use App\Models\Settings\School\School;
+use App\Models\System\Student\Student;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use App\Models\System\Teacher\ClassSchedule;
@@ -37,6 +38,7 @@ class User extends Authenticatable //implements MustVerifyEmail
         'signature_photo_path',
         'email',
         'password',
+        'school_id',
     ];
 
     /**
@@ -171,5 +173,9 @@ class User extends Authenticatable //implements MustVerifyEmail
             'id', // Local key en users
             'grade_id' // Local key en class_schedules
         )->distinct();
+    }
+        public function student()
+    {
+        return $this->hasOne(Student::class);
     }
 }

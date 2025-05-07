@@ -43,16 +43,36 @@
                 
                 <!-- Acciones -->
                 <div class="ml-auto flex gap-2 sm:gap-3">
-                     <flux:button 
-                        href="{{ route('settings.grades.show',$horario->grade) }}" 
-                        icon="eye" 
-                        color="primary" >                      
-                    </flux:button>
-                    <flux:button 
-                        wire:click.prevent="delete({{ $horario->id }})"
-                        icon="trash" 
-                        color="primary" >                      
-                    </flux:button>
+                    <flux:button.group>
+                        <flux:button 
+                            href="{{ route('settings.grades.show',$horario->grade) }}" 
+                            icon="pencil" 
+                            size="sm" 
+                            color="primary" >                      
+                        </flux:button>
+                        <flux:button 
+                            href="{{ route('settings.grades.show',$horario->grade) }}" 
+                            icon="eye" 
+                            size="sm" 
+                            color="primary" >                      
+                        </flux:button>
+                        <flux:button 
+                            wire:click.prevent="delete({{ $horario->id }})"
+                            icon="trash" 
+                            size="sm" 
+                            color="primary" >                      
+                        </flux:button>
+                    </flux:button.group>
+                    {{-- <flux:button.group>
+                        <flux:button 
+                            href="{{ route('settings.grades.show',$horario->grade) }}" 
+                            size="sm" 
+                            icon="pencil"
+                            color="primary" >
+                        </flux:button>
+                        <flux:button href="" size="sm" icon="eye"color="primary"></flux:button>
+                        <flux:button wire:click.prevent="" size="sm" icon="trash"color="primary"></flux:button>
+                    </flux:button.group> --}}
                    
                 </div>
             </div>

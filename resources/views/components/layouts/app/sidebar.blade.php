@@ -35,8 +35,8 @@
                 'name' => 'Notas',
                 'icon' => 'pencil-square',
                 'label' => __('Notas'),
-                'route' => route('dashboard'),
-                'current' => request()->routeIs('dashboard'),
+                'route' => route('academic.grading-summary.index'),
+                'current' => request()->routeIs('academic.grading-summary.*'),
                 'badge'=> 'Anlz',
                 'color'=> 'rose',
             ],
@@ -87,6 +87,14 @@
                         'label' => __('Año Gestion'),
                         'route' =>route('settings.years.index'),
                         'current' => request()->routeIs('settings.years.*'),
+                        
+                    ],
+                    [
+                        'name' => 'Conf. Calificaciones',
+                        'icon' => 'information-circle',
+                        'label' => __('Conf. Calificaciones'),
+                        'route' =>route('settings.grading-settings.index'),
+                        'current' => request()->routeIs('settings.grading-settings.*'),
                         
                     ],
                     [
