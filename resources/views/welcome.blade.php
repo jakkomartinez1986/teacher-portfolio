@@ -970,7 +970,7 @@
                     <p class="product-description">Delicioso yogurt de kéfir con el sabor tropical y antioxidante de la uvilla orgánica. Perfecto para desayunos y meriendas saludables.</p>
                     <p class="product-price">$1.50 / 200ml</p>
                     <a href="https://wa.me/593997331912?text=Hola,%20quiero%20ordenar%20el%20kéfir%20de%20uvilla%20Yogu%20Vida" class="order-button">Pedir Ahora</a>
-                </div>c:\Users\julio\Downloads\remolacha_mas_vendido.jpg
+                </div>
             </div>
             
             <div class="product-card">
