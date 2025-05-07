@@ -870,7 +870,7 @@
     <header id="header">
         <nav>
             <a href="#" class="logo-container">
-                <img src="app-resources/img/welcome/logo_yogu_vida.jpeg"
+                <img src="app-resources/img/welcome/kefir_logo_final.jpg"
                      class="responsive-circle-logo"
                      alt="Logo Yogu Vida">
                 <span style="font-weight: 600; color: #333;">YOGU</span>
@@ -897,7 +897,7 @@
             <div class="natural-badge">100% Natural</div>
             <h1>YOGU VIDA KÉFIR</h1>
             <div class="tagline">EL YOGURT QUE TE DA SALUD</div>
-            <p>Descubre los beneficios de nuestro kéfir artesanal con sabores naturales de uvilla y remolacha. Elaborado con amor y los más altos estándares de calidad orgánica para cuidar tu salud digestiva.</p>
+            <p>Descubre los beneficios de nuestro kéfir artesanal con sabores naturales de uvilla y remolacha. Elaborado con amor y con los más altos estándares de calidad orgánica para cuidar tu salud digestiva.</p>
             <div class="cta-buttons">
                 <a href="#productos" class="cta-button">Ver Productos</a>
                 <a href="https://wa.me/5937331912?text=Hola,%20me%20interesa%20comprar%20su%20yogurt%20de%20kéfir%20Yogu%20Vida" class="cta-button secondary">Pedir por WhatsApp</a>
@@ -909,7 +909,7 @@
         <h2 class="section-title">Nuestra Historia</h2>
         <div class="about-content">
             <div class="about-text">
-                <p><span class="highlight">Yogu Vida</span> es un emprendimiento desarrollado por estudiantes del Bachillerato Técnico en Comercializacion y Ventas de la Unidad Educativa Vicente Leon, que nace como parte de nuestro proyecto educativo. Combinamos conocimientos técnicos con pasión por la alimentación saludable.</p>
+                <p><span class="highlight">Yogu Vida</span> es un emprendimiento desarrollado por estudiantes del Bachillerato Técnico en Comercializacion y Ventas de la Unidad Educativa Vicente León, que nace como parte de nuestro proyecto educativo. Combinamos conocimientos técnicos con pasión por la alimentación saludable.</p>
                 <p>Utilizamos únicamente ingredientes <span class="highlight">100% naturales</span> y aplicamos los procesos de fermentación tradicionales que hemos aprendido en nuestras clases, evitando completamente conservantes y aditivos artificiales. Cada lote es preparado con dedicación estudiantil para garantizar calidad y beneficios probióticos.</p>
                 <p>"El yogurt que te da salud" no es solo nuestro eslogan, es el resultado de nuestro aprendizaje técnico y compromiso con la comunidad. Creemos en el poder de los jóvenes para innovar en alimentación saludable y en el valor de los probióticos para el bienestar familiar.</p>
                 <p>Este proyecto nos permite poner en práctica nuestras competencias técnicas mientras contribuimos a promover hábitos alimenticios más sanos en nuestra localidad.</p>
@@ -968,7 +968,7 @@
                 <div class="product-info">
                     <h3 class="product-title">KÉFIR UVILLA</h3>
                     <p class="product-description">Delicioso yogurt de kéfir con el sabor tropical y antioxidante de la uvilla orgánica. Perfecto para desayunos y meriendas saludables.</p>
-                    <p class="product-price">$5.99 / 500ml</p>
+                    <p class="product-price">$1.50 / 200ml</p>
                     <a href="https://wa.me/593997331912?text=Hola,%20quiero%20ordenar%20el%20kéfir%20de%20uvilla%20Yogu%20Vida" class="order-button">Pedir Ahora</a>
                 </div>c:\Users\julio\Downloads\remolacha_mas_vendido.jpg
             </div>
@@ -981,7 +981,7 @@
                 <div class="product-info">
                     <h3 class="product-title">KÉFIR REMOLACHA</h3>
                     <p class="product-description">Nuestra especialidad: kéfir rosado naturalmente con remolacha orgánica. Rico en hierro, probióticos y beneficios para tu salud digestiva.</p>
-                    <p class="product-price">$5.99 / 500ml</p>
+                    <p class="product-price">$1.50 / 200ml</p>
                     <a href="https://wa.me/593997331912?text=Hola,%20quiero%20ordenar%20el%20kéfir%20de%20remolacha%20Yogu%20Vida" class="order-button">Pedir Ahora</a>
                 </div>
             </div>
@@ -993,7 +993,7 @@
                 <div class="product-info">
                     <h3 class="product-title">KÉFIR NATURAL</h3>
                     <p class="product-description">El clásico yogurt de kéfir en su forma más pura, sin aditivos, con todo el poder probiótico de nuestra fermentación natural.</p>
-                    <p class="product-price">$4.99 / 500ml</p>
+                    <p class="product-price">$1.50 / 200ml</p>
                     <a href="https://wa.me/593997331912?text=Hola,%20quiero%20ordenar%20el%20kéfir%20natural%20Yogu%20Vida" class="order-button">Pedir Ahora</a>
                 </div>
             </div>
