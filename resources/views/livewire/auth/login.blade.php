@@ -23,36 +23,70 @@ new #[Layout('components.layouts.auth')] class extends Component {
     /**
      * Handle an incoming authentication request.
      */
+    // public function login(): void
+    // {
+    //     $this->validate();
+
+    //     $this->ensureIsNotRateLimited();
+
+    //     // if (! Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
+    //     //     RateLimiter::hit($this->throttleKey());
+
+    //     //     throw ValidationException::withMessages([
+    //     //         'email' => __('auth.failed'),
+    //     //     ]);
+    //     // }
+    //     $login_name=filter_var($this->email_dni, FILTER_VALIDATE_EMAIL) ? 'email' : 'dni'; 
+
+    //         if (! Auth::attempt([ $login_name => $this->email_dni, 'password' => $this->password], $this->remember)) {
+    //             RateLimiter::hit($this->throttleKey());
+
+    //             throw ValidationException::withMessages([
+    //                 'email_dni' => __('auth.failed'),
+    //             ]);
+    //         }
+
+
+    //     RateLimiter::clear($this->throttleKey());
+    //     Session::regenerate();
+
+    //     $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
+    // }
     public function login(): void
     {
         $this->validate();
 
         $this->ensureIsNotRateLimited();
 
-        // if (! Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
-        //     RateLimiter::hit($this->throttleKey());
+        $login_name = filter_var($this->email_dni, FILTER_VALIDATE_EMAIL) ? 'email' : 'dni'; 
 
-        //     throw ValidationException::withMessages([
-        //         'email' => __('auth.failed'),
-        //     ]);
-        // }
-        $login_name=filter_var($this->email_dni, FILTER_VALIDATE_EMAIL) ? 'email' : 'dni'; 
+        if (! Auth::attempt([$login_name => $this->email_dni, 'password' => $this->password], $this->remember)) {
+            RateLimiter::hit($this->throttleKey());
 
-            if (! Auth::attempt([ $login_name => $this->email_dni, 'password' => $this->password], $this->remember)) {
-                RateLimiter::hit($this->throttleKey());
+            throw ValidationException::withMessages([
+                'email_dni' => __('auth.failed'),
+            ]);
+        }
 
-                throw ValidationException::withMessages([
-                    'email_dni' => __('auth.failed'),
-                ]);
-            }
+        // Obtener el usuario autenticado
+        $user = Auth::user();
 
+        // Verificar si el usuario tiene el rol "estudiante"
+        if ($user->hasRole('ESTUDIANTE')) {
+            // Cerrar la sesión del usuario
+            Auth::logout();
+            Session::regenerate();
+
+            throw ValidationException::withMessages([
+                'email_dni' => __('auth.student_not_allowed'),
+            ]);
+        }
 
         RateLimiter::clear($this->throttleKey());
         Session::regenerate();
 
         $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
     }
-
     /**
      * Ensure the authentication request is not rate limited.
      */

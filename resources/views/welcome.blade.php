@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yogu Vida - Kéfir Natural de Uvilla | El Yogurt que te da Salud</title>
+    <title>Yogu Vida - Kéfir Natural | El Yogurt que te da Salud</title>
     <meta name="description" content="Yogurt de kéfir 100% natural con sabores de uvilla y remolacha. Producto artesanal lleno de probióticos para tu salud digestiva.">
     <style>
         :root {
@@ -161,8 +161,11 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover;
-            opacity: 0.1;
+            /* background: url('https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover; */
+            /* background: url('{{ asset('app-resources/img/welcome/kefir-subfondo-final.png') }}') center/cover; */
+            background: url('{{ asset('app-resources/img/welcome/kefir-subfondo-final.png') }}') center/cover;
+            background-size: 30%;
+            opacity: 0.3;
             z-index: 0;
         }
         
@@ -1057,7 +1060,7 @@
                 <img src="app-resources/img/welcome/kefir-artesano.jpg" alt="Producto final Yogu Vida Kéfir">
             </div>
             <div class="gallery-item">
-                <img src="app-resources/img/welcome/logo_yogu_vida.jpeg" alt="Presentación del producto Yogu Vida">
+                <img src="app-resources/img/welcome/kefir-producto-final-lineal.jpg" alt="Presentación del producto Yogu Vida">
             </div>
         </div>
     </section>
