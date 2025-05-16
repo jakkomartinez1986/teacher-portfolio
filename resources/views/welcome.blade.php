@@ -1141,10 +1141,10 @@
                         <label for="producto">Producto de Interés</label>
                         <select id="producto" class="form-control" required>
                             <option value="">Seleccione un producto</option>
-                            <option value="kefir_uvilla">Kéfir de Uvilla ($5.99)</option>
-                            <option value="kefir_remolacha">Kéfir de Remolacha ($5.99)</option>
-                            <option value="kefir_natural">Kéfir Natural ($4.99)</option>
-                            <option value="combo">Combo Familiar (3 unidades - $16.99)</option>
+                            <option value="kefir_uvilla">Kéfir de Uvilla ($1.50)</option>
+                            <option value="kefir_remolacha">Kéfir de Remolacha ($1.50)</option>
+                            <option value="kefir_natural">Kéfir Natural ($1.50)</option>
+                            <option value="combo">Combo Familiar (3 unidades - $4.50)</option>
                         </select>
                     </div>
                     
