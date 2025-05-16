@@ -868,7 +868,7 @@
 </head>
 <body>
     <!-- WhatsApp Float Button -->
-    <a href="https://wa.me/593997331912?text=Hola,%20me%20interesa%20el%20yogurt%20de%20kéfir%20Yogu%20Vida" class="whatsapp-float" target="_blank">
+    <a href="https://wa.me/593979082655?text=Hola,%20me%20interesa%20el%20yogurt%20de%20kéfir%20Yogu%20Vida" class="whatsapp-float" target="_blank">
         <i class="fab fa-whatsapp"></i>
     </a>
 
@@ -888,7 +888,7 @@
                 <li><a href="#productos">Productos</a></li>
                 <li><a href="#testimonios">Testimonios</a></li>
                 <li><a href="#contacto">Contacto</a></li>
-                <li><a href="https://wa.me/593997331912" class="nav-cta">Pedir Ahora</a></li>
+                <li><a href="https://wa.me/593979082655" class="nav-cta">Pedir Ahora</a></li>
             </ul>
             
             <button class="mobile-menu-btn">
@@ -976,7 +976,7 @@
                     <h3 class="product-title">KÉFIR UVILLA</h3>
                     <p class="product-description">Delicioso yogurt de kéfir con el sabor tropical y antioxidante de la uvilla orgánica. Perfecto para desayunos y meriendas saludables.</p>
                     <p class="product-price">$1.50 / 200ml</p>
-                    <a href="https://wa.me/593997331912?text=Hola,%20quiero%20ordenar%20el%20kéfir%20de%20uvilla%20Yogu%20Vida" class="order-button">Pedir Ahora</a>
+                    <a href="https://wa.me/593979082655?text=Hola,%20quiero%20ordenar%20el%20kéfir%20de%20uvilla%20Yogu%20Vida" class="order-button">Pedir Ahora</a>
                 </div>
             </div>
             
@@ -991,7 +991,7 @@
                     <h3 class="product-title">KÉFIR REMOLACHA</h3>
                     <p class="product-description">Nuestra especialidad: kéfir rosado naturalmente con remolacha orgánica. Rico en hierro, probióticos y beneficios para tu salud digestiva.</p>
                     <p class="product-price">$1.50 / 200ml</p>
-                    <a href="https://wa.me/593997331912?text=Hola,%20quiero%20ordenar%20el%20kéfir%20de%20remolacha%20Yogu%20Vida" class="order-button">Pedir Ahora</a>
+                    <a href="https://wa.me/593979082655?text=Hola,%20quiero%20ordenar%20el%20kéfir%20de%20remolacha%20Yogu%20Vida" class="order-button">Pedir Ahora</a>
                 </div>
             </div>
             
@@ -1005,7 +1005,7 @@
                     <h3 class="product-title">KÉFIR NATURAL</h3>
                     <p class="product-description">El clásico yogurt de kéfir en su forma más pura, sin aditivos, con todo el poder probiótico de nuestra fermentación natural.</p>
                     <p class="product-price">$1.50 / 200ml</p>
-                    <a href="https://wa.me/593997331912?text=Hola,%20quiero%20ordenar%20el%20kéfir%20natural%20Yogu%20Vida" class="order-button">Pedir Ahora</a>
+                    <a href="https://wa.me/593979082655?text=Hola,%20quiero%20ordenar%20el%20kéfir%20natural%20Yogu%20Vida" class="order-button">Pedir Ahora</a>
                 </div>
             </div>
         </div>
@@ -1085,7 +1085,7 @@
                     </div>
                     <div class="contact-text">
                         <h4>Teléfono</h4>
-                        <a href="tel:+593997331912">+593 997331912</a>
+                        <a href="tel:+593979082655">+593 979082655</a>
                     </div>
                 </div>
                 
@@ -1095,7 +1095,7 @@
                     </div>
                     <div class="contact-text">
                         <h4>WhatsApp</h4>
-                        <a href="https://wa.me/593997331912">Envíanos un mensaje</a>
+                        <a href="https://wa.me/593979082655">Envíanos un mensaje</a>
                     </div>
                 </div>
                 
@@ -1175,7 +1175,7 @@
             <div class="social-links">
                 <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
                 <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="https://wa.me/593997331912" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://wa.me/593979082655" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
             </div>
             
             <div class="copyright">
