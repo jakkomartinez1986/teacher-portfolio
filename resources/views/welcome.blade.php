@@ -90,11 +90,13 @@
             object-fit: cover;
             margin-right: 12px;
         }
+            /* Menú mobile - oculto por defecto */
         .nav-links {
             display: flex;
             list-style: none;
             gap: 1.5rem;
         }
+
         
         .nav-links a {
             text-decoration: none;
@@ -918,7 +920,7 @@
                 <p>Este proyecto nos permite poner en práctica nuestras competencias técnicas mientras contribuimos a promover hábitos alimenticios más sanos en nuestra localidad.</p>
             </div>
             <div class="about-image">
-                <img src="app-resources/img/welcome/uvilla_yogu_vida.jpg" alt="Proceso artesanal de kéfir Yogu Vida">
+                <img src="app-resources/img/welcome/kefir piramide.jpg" alt="Proceso artesanal de kéfir Yogu Vida">
             </div>
         </div>
     </section>
@@ -966,7 +968,9 @@
             <div class="product-card">
                 <div class="product-badge">Más Vendido</div>
                 <div class="product-image">
-                    <img src="app-resources/img/welcome/uvilla_mas_vendido.jpg" alt="Kéfir de Uvilla Yogu Vida">
+                    <img src="app-resources/img/welcome/kefir-ubilla.jpg" 
+                        alt="Kéfir de Uvilla Yogu Vida"
+                        style="width: 70%; height: auto; display: block; margin: 0 auto;">
                 </div>
                 <div class="product-info">
                     <h3 class="product-title">KÉFIR UVILLA</h3>
@@ -979,8 +983,10 @@
             <div class="product-card">
                 <div class="product-badge">Novedad</div>
                 <div class="product-image">
-                    <img src="app-resources/img/welcome/remolacha_mas_vendido.jpg" alt="Kéfir de Remolacha Yogu Vida">
-                </div>
+                    <img src="app-resources/img/welcome/kefir-remolacha.jpg" 
+                        alt="Kéfir de Remolacha Yogu Vida"
+                        style="width: 70%; height: auto; display: block; margin: 0 auto;">
+                </div>              
                 <div class="product-info">
                     <h3 class="product-title">KÉFIR REMOLACHA</h3>
                     <p class="product-description">Nuestra especialidad: kéfir rosado naturalmente con remolacha orgánica. Rico en hierro, probióticos y beneficios para tu salud digestiva.</p>
@@ -990,8 +996,10 @@
             </div>
             
             <div class="product-card">
-                <div class="product-image">
-                    <img src="app-resources/img/welcome/kefir_natural.jpg" alt="Kéfir Natural Yogu Vida">
+                 <div class="product-image">
+                    <img src="app-resources/img/welcome/kefir-natural.jpg" 
+                        alt="Kéfir Natural Yogu Vida"
+                        style="width: 70%; height: auto; display: block; margin: 0 auto;">
                 </div>
                 <div class="product-info">
                     <h3 class="product-title">KÉFIR NATURAL</h3>
