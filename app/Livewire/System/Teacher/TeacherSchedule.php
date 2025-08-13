@@ -14,6 +14,7 @@ class TeacherSchedule extends Component
     public $inicioSemanaLaboral;
     public $finSemanaLaboral;
     public $horarios = [];
+    public $horariodocente = [];
     public $confirming;
     protected $listeners = ['deleteConfirmed'];
     public function mount()
@@ -59,6 +60,10 @@ class TeacherSchedule extends Component
             ->where('day',  mb_strtoupper($this->diaSeleccionado, 'UTF-8'))
             ->orderBy('start_time')
             ->get();
+        $this->horariodocente = ClassSchedule::with(['subject', 'grade.nivel'])
+            ->where('teacher_id', Auth::id())
+            ->orderBy('grade_id')
+            ->get();
     }
     public function delete($id)
     {
@@ -102,6 +107,7 @@ class TeacherSchedule extends Component
 
     public function render()
     {
+
         return view('livewire.system.teacher.teacher-schedule');
     }
 }

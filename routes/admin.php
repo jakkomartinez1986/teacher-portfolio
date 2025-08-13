@@ -4,6 +4,7 @@ use App\Http\Controllers\Security\RoleController;
 use App\Http\Controllers\Manager\User\UserController;
 use App\Http\Controllers\Security\PermissionController;
 
+
 Route::resource('/users', UserController::class); 
 Route::resource('/roles', RoleController::class); 
 Route::resource('/permissions', PermissionController::class); 

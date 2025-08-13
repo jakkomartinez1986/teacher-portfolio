@@ -6,17 +6,28 @@ use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Settings\Area\Subject;
 use App\Models\Settings\School\Grade;
+use App\Models\System\Student\Student;
 use Illuminate\Support\Facades\Validator;
 use App\Models\System\Teacher\GradeSummary;
 use App\Models\Settings\Trimester\Trimester;
+use App\Models\System\Teacher\ClassSchedule;
 use App\Imports\Academic\Import\GradesImport;
 use App\Models\System\Teacher\GradeEvaluation;
 use App\Models\System\Teacher\FormativeActivity;
 use App\Exports\Academic\Export\GradesTemplateExport;
-use App\Models\System\Teacher\ClassSchedule;
 
 class AcademicGradingController extends Controller
 {
+    public function __construct()
+    {
+        // Aplica el middleware para roles
+        $this->middleware('role:ADMIN|SUPER-ADMIN')->only(['create', 'store', 'edit', 'update']);
+        
+        // Aplica el middleware para permisos
+        $this->middleware('permission:crear-academicgrading')->only(['create', 'store']);
+        $this->middleware('permission:editar-academicgrading')->only(['edit', 'update']);
+        // $this->middleware('permission:borrar-user')->only('destroy');
+    }
     // Mostrar formulario unificado de notas
     public function index(Request $request)
     {
@@ -31,7 +42,7 @@ class AcademicGradingController extends Controller
             ->pluck('subject')
             ->unique('id');
 
-        $trimesters = Trimester::get();
+        $trimesters = Trimester::where('status',1)->orderby('id')->get();
         // $grades = Grade::get();
         $grades=ClassSchedule::where('teacher_id', auth()->id())
             ->with(['grade'])
@@ -59,10 +70,27 @@ class AcademicGradingController extends Controller
                 ->get();
 
             // Obtener estudiantes del curso ordenados por apellido
-            $students = $selectedGrade->students()
-                ->orderBy('lastname')
-                ->orderBy('name')
-                ->get();
+            // $students = $selectedGrade->students()->users()
+            //     ->orderBy('lastname')
+            //     ->orderBy('name')
+            //     ->get();
+
+          $students = Student::where('current_grade_id', $selectedGrade->id)
+            ->join('users', 'students.user_id', '=', 'users.id')
+            ->select([
+                'students.*',
+                'users.name',
+                'users.lastname',
+                'users.email',
+                'users.dni',
+                'users.phone',
+                'users.cellphone',
+                'users.address',
+                'users.profile_photo_path'
+            ])
+            ->orderBy('users.lastname')
+            ->orderBy('users.name')
+            ->get();
 
             // Obtener todas las notas formativas agrupadas por estudiante y actividad
             $formativeGrades = GradeEvaluation::formative()

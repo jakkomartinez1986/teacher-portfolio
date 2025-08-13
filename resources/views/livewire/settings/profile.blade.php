@@ -44,7 +44,8 @@ new class extends Component {
         $validated = $this->validate([
             'name' => ['required', 'string', 'max:255'],
             'lastname' => ['required', 'string', 'max:255'],
-            'dni' => ['required', 'regex:/[0-9]{9}/', 'size:10','unique:' .  Rule::unique(User::class)->ignore($user->id)],
+            //'dni' => ['required', 'regex:/[0-9]{9}/', 'size:10','unique:' .  Rule::unique(User::class)->ignore($user->id)],
+            'dni' => ['required','ec_cedula', 'regex:/[0-9]{9}/', 'size:10', Rule::unique(User::class, 'dni')->ignore($user->id)],
             'phone' => ['required', 'regex:/[0-9]{9}/', 'size:10'],
             'cellphone' => ['required', 'regex:/[0-9]{9}/', 'size:10'],
             'address' => ['required', 'string', 'max:255'],

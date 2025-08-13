@@ -5,19 +5,62 @@ namespace App\Http\Controllers\System\Teacher;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Settings\Area\Subject;
 use App\Models\Settings\School\Grade;
 use App\Models\Settings\Trimester\Trimester;
 use App\Models\System\Teacher\ClassSchedule;
 
-class ClassScheludeController extends Controller
+class ClassScheduleController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    public function __construct()
+    {
+        // Aplica el middleware para roles
+        $this->middleware('role:ADMIN|SUPER-ADMIN|TUTOR')->only(['create', 'store', 'edit', 'update']);
+        
+        // Aplica el middleware para permisos
+        $this->middleware('permission:crear-classschedule')->only(['create', 'store']);
+        $this->middleware('permission:editar-classschedule')->only(['edit', 'update']);
+        // $this->middleware('permission:borrar-user')->only('destroy');
+    }
     public function index()
     {
-        return view('pages.system.academic.schedule.index');
+        $grado = null; // Valor por defecto
+      
+        $tutoria = ClassSchedule::where('teacher_id', Auth::id())
+            ->whereHas('subject', function ($q) {
+            $q->where('subject_name', 'like', '%Acompañamiento integral en el aula%');
+            })
+            ->first();
+     
+
+        if ($tutoria) {
+        // Paso 2: Si es tutor, obtener el horario completo de su grado
+            $gradeId = $tutoria->grade_id;
+            $grado=$tutoria->classroom;
+
+            $gradohorario = ClassSchedule::with(['teacher', 'subject'])
+            ->where('grade_id', $gradeId)
+            ->get()
+            ->sortBy([
+            fn($a, $b) => strcmp($a->day, $b->day),
+            fn($a, $b) => strcmp($a->start_time, $b->start_time),
+            ]);
+        } else {
+        // Paso alternativo: no es tutor, mostrar solo su propio horario
+            $gradohorario = ClassSchedule::with(['teacher', 'subject'])
+            ->where('teacher_id', Auth::id())
+            ->get()
+            ->sortBy([
+            fn($a, $b) => strcmp($a->day, $b->day),
+            fn($a, $b) => strcmp($a->start_time, $b->start_time),
+            ]);
+        }
+        //dd($gradohorario);
+        return view('pages.system.academic.schedule.index',compact('gradohorario','grado'));
     }
 
     /**

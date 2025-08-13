@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('grade_id')->constrained();
             $table->foreignId('trimester_id')->constrained();
             $table->foreignId('student_id')->constrained('users');
+            
             $table->decimal('formative_avg', 5, 2);
             $table->decimal('summative_exam', 5, 2);
             $table->decimal('summative_project', 5, 2);

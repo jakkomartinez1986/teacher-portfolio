@@ -19,6 +19,29 @@
                     @method('PUT')
                 @endif
 
+                <!-- Año Escolar -->
+                <div class="grid grid-cols-1 gap-4 md:grid-cols-12">
+                    <div class="md:col-span-3">
+                        <label for="year_id" class="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
+                            Año Escolar <span class="text-red-500">*</span>
+                        </label>
+                    </div>
+                    <div class="md:col-span-9">
+                        <select id="year_id" name="year_id" required
+                                class="block w-full rounded-md border-neutral-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-200">
+                            @foreach($years as $year)
+                                <option value="{{ $year->id }}" 
+                                    {{ old('year_id', $trimester->year_id ?? '') == $year->id ? 'selected' : '' }}>
+                                    {{ $year->year_name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('year_id')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+
                 <!-- Nombre del Trimestre -->
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-12">
                     <div class="md:col-span-3">
@@ -36,37 +59,36 @@
                     </div>
                 </div>
 
-                <!-- Fecha de Inicio -->
+                <!-- Fechas -->
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-12">
                     <div class="md:col-span-3">
-                        <label for="start_date" class="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
-                            Fecha de Inicio <span class="text-red-500">*</span>
+                        <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
+                            Fechas <span class="text-red-500">*</span>
                         </label>
                     </div>
-                    <div class="md:col-span-9">
-                        <input id="start_date" type="date" name="start_date" 
-                               value="{{ old('start_date', isset($trimester) ? $trimester->start_date->format('Y-m-d') : '') }}" required
-                               class="block w-full rounded-md border-neutral-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-200">
-                        @error('start_date')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
-                    </div>
-                </div>
-
-                <!-- Fecha de Fin -->
-                <div class="grid grid-cols-1 gap-4 md:grid-cols-12">
-                    <div class="md:col-span-3">
-                        <label for="end_date" class="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
-                            Fecha de Fin <span class="text-red-500">*</span>
-                        </label>
-                    </div>
-                    <div class="md:col-span-9">
-                        <input id="end_date" type="date" name="end_date" 
-                               value="{{ old('end_date', isset($trimester) ? $trimester->end_date->format('Y-m-d') : '') }}" required
-                               class="block w-full rounded-md border-neutral-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-200">
-                        @error('end_date')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
+                    <div class="md:col-span-9 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="start_date" class="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
+                                Inicio
+                            </label>
+                            <input id="start_date" type="date" name="start_date" 
+                                   value="{{ old('start_date', isset($trimester) ? $trimester->start_date->format('Y-m-d') : '') }}" required
+                                   class="block w-full rounded-md border-neutral-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-200">
+                            @error('start_date')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div>
+                            <label for="end_date" class="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
+                                Fin
+                            </label>
+                            <input id="end_date" type="date" name="end_date" 
+                                   value="{{ old('end_date', isset($trimester) ? $trimester->end_date->format('Y-m-d') : '') }}" required
+                                   class="block w-full rounded-md border-neutral-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-200">
+                            @error('end_date')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
                     </div>
                 </div>
 
@@ -90,19 +112,7 @@
                 </div>
 
                 <!-- Botones -->
-                {{-- <div class="flex justify-end gap-3 pt-4">
-                    <a href="{{ route('settings.trimesters.index') }}" 
-                       class="inline-flex items-center rounded-md border border-neutral-300 bg-white px-4 py-2 text-sm font-medium text-neutral-700 shadow-sm hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-200 dark:hover:bg-neutral-600">
-                        Cancelar
-                    </a>
-                    <button type="submit" 
-                            class="inline-flex items-center rounded-md border border-transparent bg-primary-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
-                        {{ isset($trimester) ? 'Actualizar' : 'Guardar' }}
-                    </button>
-                </div> --}}
-
-                 <!-- Botones -->
-                 <div class="flex space-x-4 mt-6 pt-4 justify-end">
+                <div class="flex space-x-4 mt-6 pt-4 justify-end">
                     <flux:button 
                         icon="arrow-uturn-left" 
                         href="{{ route('settings.trimesters.index') }}"
@@ -117,7 +127,7 @@
                                 icon="check-circle" 
                                 color="primary"
                             >
-                                {{ __('Actualizar Periodo') }}
+                                {{ __('Actualizar Trimestre') }}
                             </flux:button>
                         @endcan
                     @else
@@ -126,7 +136,7 @@
                             icon="plus" 
                             color="primary"
                         >
-                            {{ __('Crear Periodo') }}
+                            {{ __('Crear Trimestre') }}
                         </flux:button>
                     @endif
                 </div>

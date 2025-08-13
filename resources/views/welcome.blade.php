@@ -1,1225 +1,616 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yogu Vida - Kéfir Natural | El Yogurt que te da Salud</title>
-    <meta name="description" content="Yogurt de kéfir 100% natural con sabores de uvilla y remolacha. Producto artesanal lleno de probióticos para tu salud digestiva.">
-    <style>
-        :root {
-            --primary-green: #50C878; /* Verde principal de la marca */
-            --dark-green: #3CB371; /* Verde oscuro para contrastes */
-            --light-green: #E8F5E9; /* Verde muy claro para fondos */
-            --natural-white: #FFFFFF; 
-            --cream-bg: #F5F5F5;
-            --gold-accent: #FFD700; /* Amarillo dorado para destacados */
-            --text-dark: #333333;
-            --text-medium: #555555;
-            --text-light: #777777;
-        }
-        
-        body {
-            font-family: 'Montserrat', 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            color: var(--text-dark);
-            line-height: 1.6;
-            background-color: var(--cream-bg);
-        }
-        
-        /* Tipografía */
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
-        
-        h1, h2, h3 {
-            font-weight: 600;
-        }
-        
-        /* Header */
-        header {
-            background-color: var(--natural-white);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            transition: all 0.3s;
-        }
-        
-        header.scrolled {
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            padding: 5px 0;
-        }
-        
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 5%;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary-green);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .logo img {
-            height: 50px;
-            margin-right: 10px;
-        }
-        .logo-container {
-            display: flex;
-            align-items: center;
-            text-decoration: none !important;
-        }
-        
-        .responsive-circle-logo {
-            width: 8vmin;            /* Unidad relativa al viewport */
-            height: 8vmin;
-            min-width: 50px;         /* Límites mínimos/máximos */
-            min-height: 50px;
-            max-width: 80px;
-            max-height: 80px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-right: 12px;
-        }
-            /* Menú mobile - oculto por defecto */
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 1.5rem;
-        }
-
-        
-        .nav-links a {
-            text-decoration: none;
-            color: var(--text-dark);
-            font-weight: 500;
-            transition: all 0.3s;
-            position: relative;
-            padding: 5px 0;
-        }
-        
-        .nav-links a:after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            background: var(--primary-green);
-            bottom: 0;
-            left: 0;
-            transition: width 0.3s;
-        }
-        
-        .nav-links a:hover {
-            color: var(--primary-green);
-        }
-        
-        .nav-links a:hover:after {
-            width: 100%;
-        }
-        
-        .nav-cta {
-            background-color: var(--gold-accent);
-            color: var(--text-dark) !important;
-            padding: 0.6rem 1.5rem;
-            border-radius: 50px;
-            font-weight: 600;
-            margin-left: 1rem;
-            box-shadow: 0 3px 10px rgba(255,215,0,0.3);
-        }
-        
-        .nav-cta:hover {
-            background-color: var(--primary-green);
-            color: white !important;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(80,200,120,0.4);
-        }
-        
-        .nav-cta:after {
-            display: none;
-        }
-        
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, rgba(80,200,120,0.1) 0%, rgba(255,255,255,1) 100%);
-            padding: 10rem 5% 5rem;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .hero:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            /* background: url('https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover; */
-            /* background: url('{{ asset('app-resources/img/welcome/kefir-subfondo-final.png') }}') center/cover; */
-            background: url('{{ asset('app-resources/img/welcome/kefir-subfondo-final.png') }}') center/cover;
-            background-size: 30%;
-            opacity: 0.3;
-            z-index: 0;
-        }
-        
-        .hero-content {
-            position: relative;
-            z-index: 1;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        .natural-badge {
-            display: inline-block;
-            background-color: var(--gold-accent);
-            color: var(--text-dark);
-            padding: 0.5rem 1.5rem;
-            border-radius: 50px;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            font-size: 1.1rem;
-            box-shadow: 0 3px 10px rgba(255,215,0,0.3);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .hero h1 {
-            font-size: 3rem;
-            color: var(--primary-green);
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-        
-        .hero .tagline {
-            font-size: 2rem;
-            color: var(--dark-green);
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            line-height: 1.3;
-        }
-        
-        .hero p {
-            font-size: 1.2rem;
-            color: var(--text-medium);
-            max-width: 700px;
-            margin: 0 auto 2.5rem;
-        }
-        
-        .cta-button {
-            display: inline-block;
-            background-color: var(--primary-green);
-            color: white;
-            padding: 1rem 2.5rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s;
-            box-shadow: 0 5px 15px rgba(80,200,120,0.4);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 1.1rem;
-            margin: 0 0.5rem 1rem;
-            border: 2px solid var(--primary-green);
-        }
-        
-        .cta-button.secondary {
-            background-color: transparent;
-            color: var(--primary-green);
-            border: 2px solid var(--primary-green);
-        }
-        
-        .cta-button:hover {
-            background-color: var(--dark-green);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(60,179,113,0.5);
-        }
-        
-        .cta-button.secondary:hover {
-            background-color: var(--primary-green);
-            color: white;
-        }
-        
-        /* Secciones */
-        section {
-            padding: 5rem 5%;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            color: var(--dark-green);
-            margin-bottom: 3rem;
-            position: relative;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .section-title:after {
-            content: "";
-            display: block;
-            width: 100px;
-            height: 4px;
-            background: var(--gold-accent);
-            margin: 1rem auto 0;
-            border-radius: 2px;
-        }
-        
-        /* About Section */
-        .about {
-            background-color: var(--natural-white);
-        }
-        
-        .about-content {
-            display: flex;
-            align-items: center;
-            gap: 4rem;
-        }
-        
-        .about-text {
-            flex: 1;
-        }
-        
-        .about-text p {
-            margin-bottom: 1.5rem;
-            color: var(--text-medium);
-            font-size: 1.1rem;
-            line-height: 1.8;
-        }
-        
-        .about-text .highlight {
-            color: var(--primary-green);
-            font-weight: 600;
-        }
-        
-        .about-image {
-            flex: 1;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            transition: all 0.5s;
-        }
-        
-        .about-image:hover {
-            transform: scale(1.02);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-        }
-        
-        .about-image img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-        
-        /* Beneficios */
-        .benefits {
-            background-color: var(--light-green);
-        }
-        
-        .benefits-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-        
-        .benefit-card {
-            background-color: var(--natural-white);
-            border-radius: 15px;
-            padding: 2rem;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            transition: all 0.3s;
-            border-top: 4px solid var(--primary-green);
-        }
-        
-        .benefit-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-        }
-        
-        .benefit-icon {
-            font-size: 3rem;
-            color: var(--primary-green);
-            margin-bottom: 1.5rem;
-        }
-        
-        .benefit-title {
-            font-size: 1.5rem;
-            color: var(--dark-green);
-            margin-bottom: 1rem;
-        }
-        
-        .benefit-desc {
-            color: var(--text-medium);
-            font-size: 1rem;
-        }
-        
-        /* Productos */
-        .products {
-            background-color: var(--natural-white);
-        }
-        
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2.5rem;
-            margin-top: 3rem;
-        }
-        
-        .product-card {
-            background-color: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-            transition: all 0.4s;
-            position: relative;
-        }
-        
-        .product-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background-color: var(--gold-accent);
-            color: var(--text-dark);
-            padding: 0.3rem 1rem;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            z-index: 2;
-        }
-        
-        .product-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-        }
-        
-        .product-image {
-            height: 300px;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .product-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s;
-        }
-        
-        .product-card:hover .product-image img {
-            transform: scale(1.1);
-        }
-        
-        .product-info {
-            padding: 1.8rem;
-            text-align: center;
-        }
-        
-        .product-title {
-            font-size: 1.5rem;
-            margin-bottom: 0.8rem;
-            color: var(--dark-green);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .product-description {
-            margin-bottom: 1.2rem;
-            color: var(--text-medium);
-            min-height: 60px;
-        }
-        
-        .product-price {
-            font-weight: 700;
-            font-size: 1.5rem;
-            color: var(--primary-green);
-            margin-bottom: 1.5rem;
-        }
-        
-        .order-button {
-            display: inline-block;
-            background-color: var(--gold-accent);
-            color: var(--text-dark);
-            padding: 0.8rem 2rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s;
-            border: 2px solid var(--gold-accent);
-            width: 100%;
-            max-width: 200px;
-            margin: 0 auto;
-        }
-        
-        .order-button:hover {
-            background-color: var(--primary-green);
-            color: white;
-            border-color: var(--primary-green);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(80,200,120,0.3);
-        }
-        
-        /* Testimonios */
-        .testimonials {
-            background-color: var(--light-green);
-        }
-        
-        .testimonial-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-        
-        .testimonial-card {
-            background-color: var(--natural-white);
-            border-radius: 15px;
-            padding: 2rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            position: relative;
-        }
-        
-        .testimonial-card:before {
-            content: '"';
-            position: absolute;
-            top: 10px;
-            left: 20px;
-            font-size: 5rem;
-            color: rgba(80,200,120,0.1);
-            font-family: serif;
-            line-height: 1;
-        }
-        
-        .testimonial-text {
-            color: var(--text-medium);
-            font-style: italic;
-            margin-bottom: 1.5rem;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-        }
-        
-        .author-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            overflow: hidden;
-            margin-right: 1rem;
-        }
-        
-        .author-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .author-info h4 {
-            margin: 0;
-            color: var(--dark-green);
-        }
-        
-        .author-info p {
-            margin: 0;
-            color: var(--text-light);
-            font-size: 0.9rem;
-        }
-        
-        /* Galería */
-        .gallery {
-            background-color: var(--natural-white);
-        }
-        
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-top: 3rem;
-        }
-        
-        .gallery-item {
-            height: 280px;
-            overflow: hidden;
-            border-radius: 15px;
-            position: relative;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: all 0.3s;
-        }
-        
-        .gallery-item:hover {
-            transform: scale(1.03);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-        }
-        
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s;
-        }
-        
-        .gallery-item:hover img {
-            transform: scale(1.1);
-        }
-        
-        /* Contacto */
-        .contact {
-            background: linear-gradient(135deg, var(--light-green) 0%, var(--natural-white) 100%);
-        }
-        
-        .contact-container {
-            display: flex;
-            gap: 3rem;
-            align-items: center;
-        }
-        
-        .contact-info {
-            flex: 1;
-        }
-        
-        .contact-info h3 {
-            color: var(--dark-green);
-            margin-bottom: 1.5rem;
-            font-size: 1.8rem;
-        }
-        
-        .contact-detail {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-        
-        .contact-icon {
-            font-size: 1.5rem;
-            color: var(--primary-green);
-            margin-right: 1rem;
-            width: 40px;
-            text-align: center;
-        }
-        
-        .contact-text h4 {
-            margin: 0 0 0.3rem;
-            color: var(--text-dark);
-        }
-        
-        .contact-text p, .contact-text a {
-            margin: 0;
-            color: var(--text-medium);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        
-        .contact-text a:hover {
-            color: var(--primary-green);
-        }
-        
-        .contact-form {
-            flex: 1;
-            background-color: var(--natural-white);
-            padding: 2.5rem;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-        }
-        
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--text-dark);
-            font-weight: 500;
-        }
-        
-        .form-control {
-            width: 100%;
-            padding: 0.8rem 1rem;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-family: 'Montserrat', sans-serif;
-            transition: all 0.3s;
-        }
-        
-        .form-control:focus {
-            border-color: var(--primary-green);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(80,200,120,0.2);
-        }
-        
-        textarea.form-control {
-            min-height: 150px;
-            resize: vertical;
-        }
-        
-        .submit-btn {
-            background-color: var(--primary-green);
-            color: white;
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            width: 100%;
-            font-size: 1.1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .submit-btn:hover {
-            background-color: var(--dark-green);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(80,200,120,0.4);
-        }
-        
-        /* Footer */
-        footer {
-            background: linear-gradient(135deg, var(--dark-green) 0%, var(--primary-green) 100%);
-            color: white;
-            padding: 4rem 5% 2rem;
-            text-align: center;
-        }
-        
-        .footer-content {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        .footer-logo {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-        
-        .footer-logo span {
-            color: var(--gold-accent);
-        }
-        
-        .footer-tagline {
-            font-size: 1.5rem;
-            margin-bottom: 2rem;
-            font-weight: 500;
-            opacity: 0.9;
-        }
-        
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-        
-        .footer-links a {
-            color: white;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        
-        .footer-links a:hover {
-            color: var(--gold-accent);
-        }
-        
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-        
-        .social-links a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 45px;
-            height: 45px;
-            background-color: rgba(255,255,255,0.1);
-            border-radius: 50%;
-            color: white;
-            font-size: 1.2rem;
-            transition: all 0.3s;
-        }
-        
-        .social-links a:hover {
-            background-color: var(--gold-accent);
-            color: var(--text-dark);
-            transform: translateY(-3px);
-        }
-        
-        .copyright {
-            margin-top: 2rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            color: rgba(255,255,255,0.7);
-            font-size: 0.9rem;
-        }
-        
-        /* WhatsApp Float */
-        .whatsapp-float {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background-color: #25D366;
-            color: white;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            box-shadow: 0 5px 20px rgba(37,211,102,0.4);
-            z-index: 100;
-            transition: all 0.3s;
-            text-decoration: none;
-        }
-        
-        .whatsapp-float:hover {
-            transform: scale(1.1);
-            box-shadow: 0 8px 25px rgba(37,211,102,0.6);
-        }
-        
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .about-content, .contact-container {
-                flex-direction: column;
-            }
-            
-            .about-image, .about-text, .contact-info, .contact-form {
-                width: 100%;
-            }
-            
-            .about-image {
-                order: -1;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .hero {
-                padding-top: 8rem;
-            }
-            
-            .hero h1 {
-                font-size: 2.2rem;
-            }
-            
-            .hero .tagline {
-                font-size: 1.6rem;
-            }
-            
-            .nav-links {
-                display: none;
-            }
-            
-            .mobile-menu-btn {
-                display: block;
-                background: none;
-                border: none;
-                color: var(--primary-green);
-                font-size: 1.8rem;
-                cursor: pointer;
-            }
-            
-            .section-title {
-                font-size: 2rem;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .hero h1 {
-                font-size: 1.8rem;
-            }
-            
-            .hero .tagline {
-                font-size: 1.3rem;
-            }
-            
-            .cta-buttons {
-                display: flex;
-                flex-direction: column;
-            }
-            
-            .cta-button {
-                margin-bottom: 1rem;
-                width: 100%;
-            }
-        }
-    </style>
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unidad Educativa Vicente León - Educación de Excelencia</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700;900&display=swap');
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    .hero-bg {
+      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+      background-size: cover;
+      background-position: center;
+    }
+    
+    .hover-scale {
+      transition: transform 0.3s ease;
+    }
+    
+    .hover-scale:hover {
+      transform: scale(1.03);
+    }
+    
+    .nav-link {
+      position: relative;
+    }
+    
+    .nav-link:after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -2px;
+      left: 0;
+      background-color: #D4AF37;
+      transition: width 0.3s ease;
+    }
+    
+    .nav-link:hover:after {
+      width: 100%;
+    }
+    
+    .btn-gold {
+      background-color: #D4AF37;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-gold:hover {
+      background-color: #C9A227;
+      transform: translateY(-2px);
+    }
+    
+    .section-title {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .section-title:after {
+      content: '';
+      position: absolute;
+      width: 50%;
+      height: 3px;
+      bottom: -8px;
+      left: 25%;
+      background-color: #B22222;
+    }
+  </style>
 </head>
-<body>
-    <!-- WhatsApp Float Button -->
-    <a href="https://wa.me/593979082655?text=Hola,%20me%20interesa%20el%20yogurt%20de%20kéfir%20Yogu%20Vida" class="whatsapp-float" target="_blank">
-        <i class="fab fa-whatsapp"></i>
-    </a>
+<body class="bg-gray-50">
 
-    <header id="header">
-        <nav>
-            <a href="#" class="logo-container">
-                <img src="app-resources/img/welcome/kefir_logo_final.jpg"
-                     class="responsive-circle-logo"
-                     alt="Logo Yogu Vida">
-                <span style="font-weight: 600; color: #333;">YOGU</span>
-                <span style="font-weight: 600; color: #50C878;">VIDA</span>
-            </a>
-            
-            <ul class="nav-links">
-                <li><a href="#inicio">Inicio</a></li>
-                <li><a href="#beneficios">Beneficios</a></li>
-                <li><a href="#productos">Productos</a></li>
-                <li><a href="#testimonios">Testimonios</a></li>
-                <li><a href="#contacto">Contacto</a></li>
-                <li><a href="https://wa.me/593979082655" class="nav-cta">Pedir Ahora</a></li>
+  <!-- Barra superior -->
+  <div class="bg-gray-800 text-white text-sm py-2">
+    <div class="container mx-auto px-4 flex justify-between items-center">
+      <div class="flex items-center space-x-4">
+        <a href="mailto:info@vicenteleon.edu.ec" class="hover:text-yellow-300 transition">
+          <i class="fas fa-envelope mr-1"></i> info@vicenteleon.edu.ec
+        </a>
+        <a href="tel:+59332810500" class="hover:text-yellow-300 transition">
+          <i class="fas fa-phone-alt mr-1"></i> (03) 2810-500
+        </a>
+      </div>
+      <div class="flex items-center space-x-4">
+        <a href="#" class="hover:text-yellow-300 transition"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="hover:text-yellow-300 transition"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="hover:text-yellow-300 transition"><i class="fab fa-tiktok"></i></a>
+        <a href="#" class="hover:text-yellow-300 transition"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navegación principal -->
+  <header class="bg-white shadow-md sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="flex items-center">
+        
+        <img src="app-resources/img/logos/ue-vicente-leon.jpg" alt="Escudo Vicente León" class="h-16 mr-4">
+        <div>
+          <h1 class="text-xl font-bold text-gray-800 font-serif">UNIDAD EDUCATIVA<br><span class="text-red-700">VICENTE LEÓN</span></h1>
+        </div>
+      </div>
+      
+      <nav class="hidden md:flex space-x-8">
+        <a href="#inicio" class="nav-link text-gray-800 font-medium">INICIO</a>
+        <a href="#nosotros" class="nav-link text-gray-800 font-medium">NOSOTROS</a>
+        <a href="#academico" class="nav-link text-gray-800 font-medium">ACADÉMICO</a>
+        <a href="#admisiones" class="nav-link text-gray-800 font-medium">ADMISIONES</a>
+        <a href="#contacto" class="nav-link text-gray-800 font-medium">CONTACTO</a>
+          @if (Route::has('login'))
+               
+                    @auth
+                        <a
+                            href="{{ url('/dashboard') }}"
+                            class="inav-link text-gray-800 font-medium"
+                        >
+                            HOME
+                        </a>
+                    @else
+                        <a
+                            href="{{ route('login') }}"
+                            class="nav-link text-gray-800 font-medium"
+                        >
+                            SESION
+                        </a>
+
+                        @if (Route::has('register'))
+                            <a
+                                href="{{ route('register') }}"
+                                class="nav-link text-gray-800 font-medium">
+                                REGISTRO DOCENTES
+                            </a>
+                        @endif
+                    @endauth
+              
+            @endif
+      </nav>
+      
+      <button class="md:hidden text-gray-800">
+        <i class="fas fa-bars text-2xl"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="inicio" class="hero-bg text-white py-32">
+    <div class="container mx-auto px-4 text-center">
+      <h2 class="text-4xl md:text-6xl font-bold mb-6 font-serif">EDUCACIÓN CON EXCELENCIA</h2>
+      <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">Formamos líderes con valores, pensamiento crítico y compromiso social</p>
+      <div class="flex flex-col sm:flex-row justify-center gap-4">
+        <a href="#admisiones" class="btn-gold text-gray-900 font-bold px-8 py-3 rounded-lg shadow-lg">ADMISIONES</a>
+        <a href="#contacto" class="bg-transparent border-2 border-white text-white font-bold px-8 py-3 rounded-lg hover:bg-white/20 transition shadow-lg">CONTÁCTANOS</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección Destacada -->
+  <section class="bg-red-700 text-white py-12">
+    <div class="container mx-auto px-4">
+      <div class="grid md:grid-cols-3 gap-8 text-center">
+        <div class="flex flex-col items-center">
+          <i class="fas fa-graduation-cap text-4xl mb-4"></i>
+          <h3 class="text-xl font-bold mb-2">EXCELENCIA ACADÉMICA</h3>
+          <p>Programas educativos de alto nivel académico</p>
+        </div>
+        <div class="flex flex-col items-center">
+          <i class="fas fa-users text-4xl mb-4"></i>
+          <h3 class="text-xl font-bold mb-2">FORMACIÓN INTEGRAL</h3>
+          <p>Desarrollo de habilidades sociales y emocionales</p>
+        </div>
+        <div class="flex flex-col items-center">
+          <i class="fas fa-shield-alt text-4xl mb-4"></i>
+          <h3 class="text-xl font-bold mb-2">VALORES</h3>
+          <p>Educación basada en principios éticos y morales</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sobre Nosotros -->
+  <section id="nosotros" class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-16 section-title font-serif">SOBRE NOSOTROS</h2>
+      
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div>
+          <h3 class="text-2xl font-bold text-gray-800 mb-4">UN LEGADO DE MAS DE 100 AÑOS</h3>
+          <p class="text-gray-600 mb-4">Fundada en 1840, la Unidad Educativa Vicente León ha sido pionera en la educación de calidad en Latacunga, formando generaciones de profesionales y ciudadanos comprometidos con el desarrollo del país.</p>
+          <p class="text-gray-600 mb-6">Nuestro lema "Inmortal Juventud Adelante" refleja el espíritu de superación y progreso que inculcamos en nuestros estudiantes.</p>
+          
+          <div class="grid grid-cols-2 gap-4">
+            <div class="bg-gray-50 p-4 rounded-lg">
+              <div class="text-red-700 text-3xl font-bold mb-2">15K+</div>
+              <p class="text-gray-600">Egresados</p>
+            </div>
+            <div class="bg-gray-50 p-4 rounded-lg">
+              <div class="text-red-700 text-3xl font-bold mb-2">95%</div>
+              <p class="text-gray-600">Ingreso universitario</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="relative hover-scale">
+          <img  src="app-resources/img/banners/vicente leon portada.png" alt="Historia Vicente León" class="rounded-lg shadow-xl w-full">
+          <div class="absolute -bottom-6 -right-6 bg-yellow-500 text-gray-900 p-4 rounded-lg shadow-lg font-bold text-lg font-serif">
+            Desde 1840
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Oferta Académica -->
+  <section id="academico" class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-16 section-title font-serif">OFERTA ACADÉMICA</h2>
+      
+      <div class="grid md:grid-cols-3 gap-8">
+         <!-- Educación Inicial -->
+         <div class="bg-white rounded-lg overflow-hidden shadow-md hover-scale">
+            <div class="h-48 overflow-hidden">
+              <img src="app-resources/img/banners/banner-educacion-inicial.jpeg"alt="Educación Básica" class="w-full h-full object-cover">
+            </div>
+            <div class="p-6">
+              <div class="text-yellow-500 text-2xl font-bold mb-2">1° - 2° EI</div>
+              <h3 class="text-xl font-bold text-gray-800 mb-3">EDUCACIÓN INICIAL</h3>
+              <p class="text-gray-600 mb-4">Formación integral con énfasis en valores, pensamiento crítico y habilidades fundamentales.</p>
+              <ul class="space-y-2 mb-6 text-gray-600">
+                <li class="flex items-start">
+                  <i class="fas fa-check text-yellow-500 mr-2 mt-1"></i> Educacion inicial
+                </li>
+                <li class="flex items-start">
+                  <i class="fas fa-check text-yellow-500 mr-2 mt-1"></i> Valores y principios
+                </li>
+                <li class="flex items-start">
+                  <i class="fas fa-check text-yellow-500 mr-2 mt-1"></i> Valores
+                </li>
+              </ul>
+              <a href="#" class="text-red-700 font-semibold hover:underline">Más información →</a>
+            </div>
+          </div>
+        <!-- Educación Básica -->
+        <div class="bg-white rounded-lg overflow-hidden shadow-md hover-scale">
+          <div class="h-48 overflow-hidden">
+            <img src="app-resources/img/banners/Educacion_general_basica_banner.png" alt="Educación Básica" class="w-full h-full object-cover">
+          </div>
+          <div class="p-6">
+            <div class="text-yellow-500 text-2xl font-bold mb-2">1° - 10° EGB</div>
+            <h3 class="text-xl font-bold text-gray-800 mb-3">EDUCACIÓN GENERAL BÁSICA</h3>
+            <p class="text-gray-600 mb-4">Formación integral con énfasis en valores, pensamiento crítico y habilidades fundamentales.</p>
+            <ul class="space-y-2 mb-6 text-gray-600">
+              <li class="flex items-start">
+                <i class="fas fa-check text-yellow-500 mr-2 mt-1"></i> Programa de lectura avanzada
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check text-yellow-500 mr-2 mt-1"></i> Desarrollo del pensamiento lógico-matemático
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check text-yellow-500 mr-2 mt-1"></i> Educación artística y cultural
+              </li>
             </ul>
+            <a href="#" class="text-red-700 font-semibold hover:underline">Más información →</a>
+          </div>
+        </div>
+        
+        <!-- Bachillerato General -->
+        <div class="bg-white rounded-lg overflow-hidden shadow-md hover-scale">
+          <div class="h-48 overflow-hidden">
+            <img src="app-resources/img/banners/bachillerato general unificado_banner.png"alt="Bachillerato General" class="w-full h-full object-cover">
+          </div>
+          <div class="p-6">
+            <div class="text-yellow-500 text-2xl font-bold mb-2">1° - 3° BGU</div>
+            <h3 class="text-xl font-bold text-gray-800 mb-3">BACHILLERATO GENERAL</h3>
+            <p class="text-gray-600 mb-4">Preparación universitaria con sólida base científica-humanística y desarrollo de competencias.</p>
+            <ul class="space-y-2 mb-6 text-gray-600">
+              <li class="flex items-start">
+                <i class="fas fa-check text-yellow-500 mr-2 mt-1"></i> Orientación vocacional
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check text-yellow-500 mr-2 mt-1"></i> Proyectos de investigación
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check text-yellow-500 mr-2 mt-1"></i> Participación estudiantil
+              </li>
+            </ul>
+            <a href="#" class="text-red-700 font-semibold hover:underline">Más información →</a>
+          </div>
+        </div>
+        
+        <!-- Bachillerato Técnico -->
+        <div class="bg-white rounded-lg overflow-hidden shadow-md hover-scale">
+          <div class="h-48 overflow-hidden">
+             <img src="app-resources/img/banners/banner-bachillerato-tecnico.webp" alt="Bachillerato Técnico" class="w-full h-full object-cover">
+          </div>
+          <div class="p-6">
+            <div class="text-yellow-500 text-2xl font-bold mb-2">1° - 3° BT</div>
+            <h3 class="text-xl font-bold text-gray-800 mb-3">BACHILLERATO TÉCNICO</h3>
+            <p class="text-gray-600 mb-4">Especialización en áreas técnicas con salida laboral inmediata o continuación universitaria.</p>
+            <ul class="space-y-2 mb-6 text-gray-600">
+              <li class="flex items-start">
+                <i class="fas fa-check text-yellow-500 mr-2 mt-1"></i> Desarrollo de Software
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check text-yellow-500 mr-2 mt-1"></i> Gestion Administrativa y Logistica
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check text-yellow-500 mr-2 mt-1"></i> Deportes y Recreacion
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check text-yellow-500 mr-2 mt-1"></i> Prácticas preprofesionales
+              </li>
+            </ul>
+            <a href="#" class="text-red-700 font-semibold hover:underline">Más información →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Admisiones -->
+  <section id="admisiones" class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-16 section-title font-serif">ADMISIONES</h2>
+      
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div class="relative hover-scale">
+          <img src="app-resources/img/banners/banner-admisiones-vl.png" alt="Proceso de admisión" class="rounded-lg shadow-xl w-full">
+        </div>
+        
+        <div>
+          {{-- <h3 class="text-2xl font-bold text-gray-800 mb-4">PROCESO DE ADMISIÓN 2025</h3> --}}
+          <h3 class="text-2xl font-bold text-gray-800 mb-4">PROCESO DE ADMISIÓN {{ date('Y') }}</h3>
+          <p class="text-gray-600 mb-6">Proceso de Admision en la Pagina del Ministerio de Educacion.</p>
+          
+          {{-- <div class="space-y-4">
+            <div class="flex items-start">
+              <div class="bg-red-700 text-white rounded-full w-8 h-8 flex items-center justify-center mr-4 flex-shrink-0">
+                1
+              </div>
+              <div>
+                <h4 class="font-bold text-gray-800 mb-1">Inscripción en línea</h4>
+                <p class="text-gray-600">Completa el formulario de pre-inscripción en nuestro portal.</p>
+              </div>
+            </div>
             
-            <button class="mobile-menu-btn">
-                <i class="fas fa-bars"></i>
+            <div class="flex items-start">
+              <div class="bg-red-700 text-white rounded-full w-8 h-8 flex items-center justify-center mr-4 flex-shrink-0">
+                2
+              </div>
+              <div>
+                <h4 class="font-bold text-gray-800 mb-1">Entrevista familiar</h4>
+                <p class="text-gray-600">Conoce nuestro proyecto educativo y resuelve tus dudas.</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              <div class="bg-red-700 text-white rounded-full w-8 h-8 flex items-center justify-center mr-4 flex-shrink-0">
+                3
+              </div>
+              <div>
+                <h4 class="font-bold text-gray-800 mb-1">Evaluación diagnóstica</h4>
+                <p class="text-gray-600">Para conocer el nivel académico del aspirante.</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              <div class="bg-red-700 text-white rounded-full w-8 h-8 flex items-center justify-center mr-4 flex-shrink-0">
+                4
+              </div>
+              <div>
+                <h4 class="font-bold text-gray-800 mb-1">Matrícula</h4>
+                <p class="text-gray-600">Formaliza tu ingreso a nuestra institución.</p>
+              </div>
+            </div>
+          </div> --}}
+          
+          <a href="https://juntos.educacion.gob.ec/" class="btn-gold text-gray-900 font-bold px-8 py-3 rounded-lg shadow-lg inline-block mt-8">IR A INSCRIPCIONES</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Instalaciones -->
+  <section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-16 section-title font-serif">NUESTRAS INSTALACIONES</h2>
+      
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="relative group overflow-hidden rounded-lg h-48 hover-scale">
+          <img src="https://images.unsplash.com/photo-1571260899304-425eee4c7efc?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Aulas" class="w-full h-full object-cover transition transform group-hover:scale-110 duration-500">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4">
+            <h3 class="text-white font-bold">Aulas modernas</h3>
+          </div>
+        </div>
+        
+        <div class="relative group overflow-hidden rounded-lg h-48 hover-scale">
+          <img src="https://images.unsplash.com/photo-1588072432836-e10032774350?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Laboratorios" class="w-full h-full object-cover transition transform group-hover:scale-110 duration-500">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4">
+            <h3 class="text-white font-bold">Laboratorios</h3>
+          </div>
+        </div>
+        
+        <div class="relative group overflow-hidden rounded-lg h-48 hover-scale">
+          <img src="https://images.unsplash.com/photo-1541178735493-479c1a27ed24?ixlib=rb-1.2.1&auto=format&fit=crop&w=1351&q=80" alt="Biblioteca" class="w-full h-full object-cover transition transform group-hover:scale-110 duration-500">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4">
+            <h3 class="text-white font-bold">Biblioteca</h3>
+          </div>
+        </div>
+        
+        <div class="relative group overflow-hidden rounded-lg h-48 hover-scale">
+          <img src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Áreas deportivas" class="w-full h-full object-cover transition transform group-hover:scale-110 duration-500">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4">
+            <h3 class="text-white font-bold">Áreas deportivas</h3>
+          </div>
+        </div>
+      </div>
+      
+      <div class="text-center mt-8">
+        <a href="#" class="inline-flex items-center text-red-700 font-semibold hover:underline">
+          Ver galería completa <i class="fas fa-arrow-right ml-2"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contacto -->
+  <section id="contacto" class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-16 section-title font-serif">CONTÁCTANOS</h2>
+      
+      <div class="grid md:grid-cols-2 gap-12">
+        <div>
+          <h3 class="text-2xl font-bold text-gray-800 mb-6">INFORMACIÓN DE CONTACTO</h3>
+          
+          <div class="space-y-6">
+            <div class="flex items-start">
+              <div class="bg-red-700 text-white p-3 rounded-full mr-4">
+                <i class="fas fa-map-marker-alt"></i>
+              </div>
+              <div>
+                <h4 class="font-bold text-gray-800 mb-1">Dirección</h4>
+                <p class="text-gray-600">Av. Tahuantinsuyo y Cañaris, sector la Cocha, Latacunga, Ecuador</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              <div class="bg-red-700 text-white p-3 rounded-full mr-4">
+                <i class="fas fa-phone-alt"></i>
+              </div>
+              <div>
+                <h4 class="font-bold text-gray-800 mb-1">Teléfonos</h4>
+                <p class="text-gray-600">(03) 2810-500</p>
+                <p class="text-gray-600">(03) 2811-600</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              <div class="bg-red-700 text-white p-3 rounded-full mr-4">
+                <i class="fas fa-envelope"></i>
+              </div>
+              <div>
+                <h4 class="font-bold text-gray-800 mb-1">Correo electrónico</h4>
+                <p class="text-gray-600">info@vicenteleon.edu.ec</p>
+                <p class="text-gray-600">admisiones@vicenteleon.edu.ec</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              <div class="bg-red-700 text-white p-3 rounded-full mr-4">
+                <i class="fas fa-clock"></i>
+              </div>
+              <div>
+                <h4 class="font-bold text-gray-800 mb-1">Horario de atención</h4>
+                <p class="text-gray-600">Lunes a Viernes: 8:30 12:00 y 14:00- 16:30</p>
+                {{-- <p class="text-gray-600">Sábados: 8:00 - 12:00</p> --}}
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bg-gray-50 p-8 rounded-lg shadow-md">
+          <h3 class="text-2xl font-bold text-gray-800 mb-6">ENVÍANOS UN MENSAJE</h3>
+          
+          <form class="space-y-4">
+            <div>
+              <label for="nombre" class="block text-gray-700 font-medium mb-1">Nombre completo</label>
+              <input type="text" id="nombre" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+            </div>
+            
+            <div>
+              <label for="email" class="block text-gray-700 font-medium mb-1">Correo electrónico</label>
+              <input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+            </div>
+            
+            <div>
+              <label for="telefono" class="block text-gray-700 font-medium mb-1">Teléfono</label>
+              <input type="tel" id="telefono" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+            </div>
+            
+            <div>
+              <label for="asunto" class="block text-gray-700 font-medium mb-1">Asunto</label>
+              <select id="asunto" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                <option>Información general</option>
+                <option>Detalles de cursos</option>
+                <option>Solicitudes</option>
+                <option>Otro</option>
+              </select>
+            </div>
+            
+            <div>
+              <label for="mensaje" class="block text-gray-700 font-medium mb-1">Mensaje</label>
+              <textarea id="mensaje" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"></textarea>
+            </div>
+            
+            <button type="submit" class="btn-gold text-gray-900 font-bold px-8 py-3 rounded-lg shadow-lg w-full">ENVIAR MENSAJE</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+ 
+  <!-- Mapa -->
+<div class="h-96 bg-gray-200">
+  <iframe 
+    src="https://www.google.com/maps?q=-0.922039,-78.610117&hl=es&z=16&output=embed&layer=c" 
+    width="100%" 
+    height="100%" 
+    style="border:0;" 
+    allowfullscreen="" 
+    loading="lazy">
+  </iframe>
+</div>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white py-12">
+    <div class="container mx-auto px-4">
+      <div class="grid md:grid-cols-4 gap-8 mb-8">
+        <div>
+          <h3 class="text-xl font-bold mb-4 font-serif">VICENTE LEÓN</h3>
+          <p class="text-gray-300 mb-4">Institución educativa con mas de 100 años de tradición y excelencia en Latacunga.</p>
+          <p class="italic text-gray-300">"Inmortal Juventud Adelante"</p>
+        </div>
+        
+        <div>
+          <h4 class="font-bold text-white mb-4">ENLACES RÁPIDOS</h4>
+          <ul class="space-y-2 text-gray-300">
+            <li><a href="#inicio" class="hover:text-yellow-300 transition">Inicio</a></li>
+            <li><a href="#nosotros" class="hover:text-yellow-300 transition">Nosotros</a></li>
+            <li><a href="#academico" class="hover:text-yellow-300 transition">Académico</a></li>
+            <li><a href="#admisiones" class="hover:text-yellow-300 transition">Admisiones</a></li>
+            <li><a href="#contacto" class="hover:text-yellow-300 transition">Contacto</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="font-bold text-white mb-4">ADMISIONES</h4>
+          <ul class="space-y-2 text-gray-300">
+            <li><a href="#" class="hover:text-yellow-300 transition">Proceso de admisión</a></li>
+            {{-- <li><a href="#" class="hover:text-yellow-300 transition">Requisitos</a></li> --}}
+            {{-- <li><a href="#" class="hover:text-yellow-300 transition">Becas</a></li> --}}
+            <li><a href="#" class="hover:text-yellow-300 transition">Preguntas frecuentes</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="font-bold text-white mb-4">SÍGUENOS</h4>
+          <div class="flex space-x-4 mb-4">
+            <a href="#" class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-yellow-500 transition">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="#" class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-yellow-500 transition">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="#" class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-yellow-500 transition">
+              <i class="fab fa-youtube"></i>
+            </a>
+          </div>
+          <p class="text-gray-300 mb-2">Suscríbete a nuestro boletín</p>
+          <form class="flex">
+            <input type="email" placeholder="Tu correo" class="px-4 py-2 w-full rounded-l-lg focus:outline-none text-gray-800">
+            <button type="submit" class="bg-yellow-500 text-gray-900 px-4 py-2 rounded-r-lg font-bold hover:bg-yellow-400 transition">
+              <i class="fas fa-paper-plane"></i>
             </button>
-        </nav>
-    </header>
-
-    <section class="hero" id="inicio">
-        <div class="hero-content">
-            <div class="natural-badge">100% Natural</div>
-            <h1>YOGU VIDA KÉFIR</h1>
-            <div class="tagline">EL YOGURT QUE TE DA SALUD</div>
-            <p>Descubre los beneficios de nuestro kéfir artesanal con sabores naturales de uvilla y remolacha. Elaborado con amor y con los más altos estándares de calidad orgánica para cuidar tu salud digestiva.</p>
-            <div class="cta-buttons">
-                <a href="#productos" class="cta-button">Ver Productos</a>
-                <a href="https://wa.me/5937331912?text=Hola,%20me%20interesa%20comprar%20su%20yogurt%20de%20kéfir%20Yogu%20Vida" class="cta-button secondary">Pedir por WhatsApp</a>
-            </div>
+          </form>
         </div>
-    </section>
+      </div>
+      
+      <div class="border-t border-gray-700 pt-8 text-center text-gray-400">
+       <p>&copy; {{ date('Y') }} Unidad Educativa Vicente León. Todos los derechos reservados.</p>
+        <p class="mt-2">Latacunga - Ecuador</p>
+      </div>
+    </div>
+  </footer>
 
-    <section class="about" id="nosotros">
-        <h2 class="section-title">Nuestra Historia</h2>
-        <div class="about-content">
-            <div class="about-text">
-                <p><span class="highlight">Yogu Vida</span> es un emprendimiento desarrollado por estudiantes del Bachillerato Técnico en Comercializacion y Ventas de la Unidad Educativa Vicente León, que nace como parte de nuestro proyecto educativo. Combinamos conocimientos técnicos con pasión por la alimentación saludable.</p>
-                <p>Utilizamos únicamente ingredientes <span class="highlight">100% naturales</span> y aplicamos los procesos de fermentación tradicionales que hemos aprendido en nuestras clases, evitando completamente conservantes y aditivos artificiales. Cada lote es preparado con dedicación estudiantil para garantizar calidad y beneficios probióticos.</p>
-                <p>"El yogurt que te da salud" no es solo nuestro eslogan, es el resultado de nuestro aprendizaje técnico y compromiso con la comunidad. Creemos en el poder de los jóvenes para innovar en alimentación saludable y en el valor de los probióticos para el bienestar familiar.</p>
-                <p>Este proyecto nos permite poner en práctica nuestras competencias técnicas mientras contribuimos a promover hábitos alimenticios más sanos en nuestra localidad.</p>
-            </div>
-            <div class="about-image">
-                <img src="app-resources/img/welcome/kefir piramide.jpg" alt="Proceso artesanal de kéfir Yogu Vida">
-            </div>
-        </div>
-    </section>
-
-    <section class="benefits" id="beneficios">
-        <h2 class="section-title">Beneficios del Kéfir</h2>
-        <div class="benefits-grid">
-            <div class="benefit-card">
-                <div class="benefit-icon">
-                    <i class="fas fa-heart"></i>
-                </div>
-                <h3 class="benefit-title">Salud Digestiva</h3>
-                <p class="benefit-desc">Contiene probióticos que mejoran la flora intestinal, ayudando a la digestión y absorción de nutrientes.</p>
-            </div>
-            
-            <div class="benefit-card">
-                <div class="benefit-icon">
-                    <i class="fas fa-shield-alt"></i>
-                </div>
-                <h3 class="benefit-title">Sistema Inmune</h3>
-                <p class="benefit-desc">Fortalece tus defensas naturales gracias a sus propiedades inmunomoduladoras.</p>
-            </div>
-            
-            <div class="benefit-card">
-                <div class="benefit-icon">
-                    <i class="fas fa-bolt"></i>
-                </div>
-                <h3 class="benefit-title">Energía Natural</h3>
-                <p class="benefit-desc">Rico en vitaminas B y minerales que te proporcionan energía sostenida durante el día.</p>
-            </div>
-            
-            <div class="benefit-card">
-                <div class="benefit-icon">
-                    <i class="fas fa-leaf"></i>
-                </div>
-                <h3 class="benefit-title">100% Natural</h3>
-                <p class="benefit-desc">Sin conservantes, colorantes ni aditivos artificiales. Solo ingredientes puros y naturales.</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="products" id="productos">
-        <h2 class="section-title">Nuestros Productos</h2>
-        <div class="product-grid">
-            <div class="product-card">
-                <div class="product-badge">Más Vendido</div>
-                <div class="product-image">
-                    <img src="app-resources/img/welcome/kefir-ubilla.jpg" 
-                        alt="Kéfir de Uvilla Yogu Vida"
-                        style="width: 70%; height: auto; display: block; margin: 0 auto;">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-title">KÉFIR UVILLA</h3>
-                    <p class="product-description">Delicioso yogurt de kéfir con el sabor tropical y antioxidante de la uvilla orgánica. Perfecto para desayunos y meriendas saludables.</p>
-                    <p class="product-price">$1.50 / 200ml</p>
-                    <a href="https://wa.me/593979082655?text=Hola,%20quiero%20ordenar%20el%20kéfir%20de%20uvilla%20Yogu%20Vida" class="order-button">Pedir Ahora</a>
-                </div>
-            </div>
-            
-            <div class="product-card">
-                <div class="product-badge">Novedad</div>
-                <div class="product-image">
-                    <img src="app-resources/img/welcome/kefir-remolacha.jpg" 
-                        alt="Kéfir de Remolacha Yogu Vida"
-                        style="width: 70%; height: auto; display: block; margin: 0 auto;">
-                </div>              
-                <div class="product-info">
-                    <h3 class="product-title">KÉFIR REMOLACHA</h3>
-                    <p class="product-description">Nuestra especialidad: kéfir rosado naturalmente con remolacha orgánica. Rico en hierro, probióticos y beneficios para tu salud digestiva.</p>
-                    <p class="product-price">$1.50 / 200ml</p>
-                    <a href="https://wa.me/593979082655?text=Hola,%20quiero%20ordenar%20el%20kéfir%20de%20remolacha%20Yogu%20Vida" class="order-button">Pedir Ahora</a>
-                </div>
-            </div>
-            
-            <div class="product-card">
-                 <div class="product-image">
-                    <img src="app-resources/img/welcome/kefir-natural.jpg" 
-                        alt="Kéfir Natural Yogu Vida"
-                        style="width: 70%; height: auto; display: block; margin: 0 auto;">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-title">KÉFIR NATURAL</h3>
-                    <p class="product-description">El clásico yogurt de kéfir en su forma más pura, sin aditivos, con todo el poder probiótico de nuestra fermentación natural.</p>
-                    <p class="product-price">$1.50 / 200ml</p>
-                    <a href="https://wa.me/593979082655?text=Hola,%20quiero%20ordenar%20el%20kéfir%20natural%20Yogu%20Vida" class="order-button">Pedir Ahora</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="testimonials" id="testimonios">
-        <h2 class="section-title">Lo Que Dicen Nuestros Clientes</h2>
-        <div class="testimonial-grid">
-            <div class="testimonial-card">
-                <p class="testimonial-text">"El kéfir de uvilla de Yogu Vida cambió mi salud digestiva por completo. Después de años de problemas, por fin encontré un producto natural que realmente funciona."</p>
-                <div class="testimonial-author">
-                    <div class="author-avatar">
-                        <img src="https://randomuser.me/api/portraits/women/43.jpg" alt="María G.">
-                    </div>
-                    <div class="author-info">
-                        <h4>María G.</h4>
-                        <p>Cliente desde 2024</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="testimonial-card">
-                <p class="testimonial-text">"Me encanta el sabor del kéfir de remolacha y saber que estoy consumiendo algo 100% natural. Lo recomiendo a todos mis amigos y familiares."</p>
-                <div class="testimonial-author">
-                    <div class="author-avatar">
-                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Carlos R.">
-                    </div>
-                    <div class="author-info">
-                        <h4>Carlos R.</h4>
-                        <p>Cliente desde 2024</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="testimonial-card">
-                <p class="testimonial-text">"Como nutricionista, recomiendo Yogu Vida a mis pacientes por su calidad y beneficios probióticos. Es el mejor kéfir que he probado en el mercado."</p>
-                <div class="testimonial-author">
-                    <div class="author-avatar">
-                        <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Dra. Laura M.">
-                    </div>
-                    <div class="author-info">
-                        <h4>Dra. Laura M.</h4>
-                        <p>Nutricionista</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="gallery" id="galeria">
-        <h2 class="section-title">Nuestro Proceso Natural</h2>
-        <div class="gallery-grid">
-            <div class="gallery-item">
-                <img src="app-resources/img/welcome/remolacha_cocecha.jpg" alt="Ingredientes orgánicos Yogu Vida">
-            </div>
-            <div class="gallery-item">
-                <img src="app-resources/img/welcome/uvilla_materia_prima.jpg" alt="Proceso de fermentación artesanal">
-            </div>
-            <div class="gallery-item">
-                <img src="app-resources/img/welcome/kefir-artesano.jpg" alt="Producto final Yogu Vida Kéfir">
-            </div>
-            <div class="gallery-item">
-                <img src="app-resources/img/welcome/kefir-producto-final-lineal.jpg" alt="Presentación del producto Yogu Vida">
-            </div>
-        </div>
-    </section>
-
-    <section class="contact" id="contacto">
-        <h2 class="section-title">Haz Tu Pedido</h2>
-        <div class="contact-container">
-            <div class="contact-info">
-                <h3>Contáctanos</h3>
-                
-                <div class="contact-detail">
-                    <div class="contact-icon">
-                        <i class="fas fa-phone-alt"></i>
-                    </div>
-                    <div class="contact-text">
-                        <h4>Teléfono</h4>
-                        <a href="tel:+593979082655">+593 979082655</a>
-                    </div>
-                </div>
-                
-                <div class="contact-detail">
-                    <div class="contact-icon">
-                        <i class="fab fa-whatsapp"></i>
-                    </div>
-                    <div class="contact-text">
-                        <h4>WhatsApp</h4>
-                        <a href="https://wa.me/593979082655">Envíanos un mensaje</a>
-                    </div>
-                </div>
-                
-                <div class="contact-detail">
-                    <div class="contact-icon">
-                        <i class="fas fa-envelope"></i>
-                    </div>
-                    <div class="contact-text">
-                        <h4>Email</h4>
-                        <a href="mailto:uevicenteleonlogistica@gmail.com">uevicenteleonlogistica@gmail.com</a>
-                    </div>
-                </div>
-                
-                <div class="contact-detail">
-                    <div class="contact-icon">
-                        <i class="fas fa-map-marker-alt"></i>
-                    </div>
-                    <div class="contact-text">
-                        <h4>Ubicación</h4>
-                        <p>Latacunga, Ecuador</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="contact-form">
-                <form id="pedidoForm">
-                    <div class="form-group">
-                        <label for="nombre">Nombre Completo</label>
-                        <input type="text" id="nombre" class="form-control" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="telefono">Teléfono</label>
-                        <input type="tel" id="telefono" class="form-control" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" class="form-control" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="producto">Producto de Interés</label>
-                        <select id="producto" class="form-control" required>
-                            <option value="">Seleccione un producto</option>
-                            <option value="kefir_uvilla">Kéfir de Uvilla ($1.50)</option>
-                            <option value="kefir_remolacha">Kéfir de Remolacha ($1.50)</option>
-                            <option value="kefir_natural">Kéfir Natural ($1.50)</option>
-                            <option value="combo">Combo Familiar (3 unidades - $4.50)</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="mensaje">Mensaje o Instrucciones Especiales</label>
-                        <textarea id="mensaje" class="form-control"></textarea>
-                    </div>
-                    
-                    <button type="submit" class="submit-btn">Enviar Pedido</button>
-                </form>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <div class="footer-content">
-            <div class="footer-logo">YOGU<span>VIDA</span></div>
-            <div class="footer-tagline">EL YOGURT QUE TE DA SALUD</div>
-            
-            <div class="footer-links">
-                <a href="#inicio">Inicio</a>
-                <a href="#beneficios">Beneficios</a>
-                <a href="#productos">Productos</a>
-                <a href="#testimonios">Testimonios</a>
-                <a href="#contacto">Contacto</a>
-            </div>
-            
-            <div class="social-links">
-                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="https://wa.me/593979082655" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-            </div>
-            
-            <div class="copyright">
-                <p>100% Natural • Producido con amor en Latacunga/Ecuador</p>
-                <p>© 2025 Yogu Vida. Todos los derechos reservados.</p>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // Efecto de scroll en el header
-        window.addEventListener('scroll', function() {
-            const header = document.getElementById('header');
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        });
-        
-        // Formulario de pedido
-        document.getElementById('pedidoForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Aquí iría la lógica para enviar el pedido
-            const nombre = document.getElementById('nombre').value;
-            const producto = document.getElementById('producto').value;
-            
-            // Simulación de éxito
-            alert(`¡Gracias ${nombre}! Tu pedido de ${producto.replace('_', ' ')} ha sido recibido. Nos comunicaremos contigo pronto para confirmar.`);
-            
-            // Redirigir a WhatsApp con los detalles del pedido
-            const mensaje = `Hola Yogu Vida, acabo de hacer un pedido a través de su web:\n\nNombre: ${nombre}\nProducto: ${document.getElementById('producto').options[document.getElementById('producto').selectedIndex].text}\nMensaje: ${document.getElementById('mensaje').value || 'Ninguno'}`;
-            window.open(`https://wa.me/TUNUMERODEWHATSAPP?text=${encodeURIComponent(mensaje)}`, '_blank');
-            
-            // Resetear el formulario
-            this.reset();
-        });
-        
-        // Mobile menu toggle (simplificado)
-        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
-            const navLinks = document.querySelector('.nav-links');
-            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
-        });
-    </script>
+  <script>
+    // Simple script para el menú móvil (puedes expandirlo según necesidades)
+    document.querySelector('header button').addEventListener('click', function() {
+      const nav = document.querySelector('header nav');
+      nav.classList.toggle('hidden');
+      nav.classList.toggle('flex');
+      nav.classList.toggle('flex-col');
+      nav.classList.toggle('absolute');
+      nav.classList.toggle('bg-white');
+      nav.classList.toggle('w-full');
+      nav.classList.toggle('left-0');
+      nav.classList.toggle('top-24');
+      nav.classList.toggle('p-4');
+      nav.classList.toggle('space-y-4');
+    });
+  </script>
 </body>
 </html>

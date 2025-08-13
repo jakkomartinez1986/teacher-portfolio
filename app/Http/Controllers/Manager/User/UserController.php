@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Manager\User;
 use Log;
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Role;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Settings\School\School;
 use Illuminate\Support\Facades\Storage;
@@ -50,11 +50,11 @@ class UserController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
-            'dni' => 'required|string|max:20|unique:users',
+            'dni' => 'required|ec_cedula|string|max:10|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             //'password' => ['required', 'confirmed', Password::defaults()],
-            'phone' => 'nullable|string|max:20',
-            'cellphone' => 'nullable|string|max:20',
+            'phone' => 'nullable|string|max:10',
+            'cellphone' => 'nullable|string|max:10',
             'address' => 'nullable|string|max:255',
             'status' => 'required|integer|in:0,1',
             'school_id' => 'nullable|exists:schools,id',
@@ -136,11 +136,11 @@ class UserController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
-            'dni' => 'required|string|max:20|unique:users,dni,'.$user->id,
+            'dni' => 'required|string|max:10|unique:users,dni,'.$user->id,
             'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
             //'password' => ['nullable', 'confirmed', Password::defaults()],
-            'phone' => 'nullable|string|max:20',
-            'cellphone' => 'nullable|string|max:20',
+            'phone' => 'nullable|string|max:10',
+            'cellphone' => 'nullable|string|max:10',
             'address' => 'nullable|string|max:255',
             'status' => 'required|integer|in:0,1',
             'school_id' => 'nullable|exists:schools,id',

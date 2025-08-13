@@ -21,25 +21,19 @@ class DataPrincipalSeeder extends Seeder
      */
     public function run(): void
     {
-        //
-       // $currentYear = date('Y');
-        $currentYear = 2024;
-        // Calcular el año siguiente
+        $currentYear = 2025;
         $nextYear = $currentYear + 1;
+        $anio = $currentYear . '-' . $nextYear;
         
+        $fechaInicio = Carbon::createFromFormat('Y-m-d', "{$currentYear}-08-12")->startOfDay();
+        $fechaFin = Carbon::createFromFormat('Y-m-d', "{$nextYear}-07-10")->endOfDay();
         
-        // Formar el año lectivo en formato "gestión YYYY-YYYY"
-        
-        $anio = 'Gestion '.$currentYear . '-' . $nextYear;
-        // Insertar el año lectivo en la base de datos
-        $fechaInicio = Carbon::createFromFormat('Y-m-d', "{$currentYear}-08-01")->startOfDay();
-        $fechaFin = Carbon::createFromFormat('Y-m-d', "{$nextYear}-07-31")->endOfDay();
-        // Crear escuelas de prueba
-        $school =School::create([
+        // Crear escuela
+        $school = School::create([
             'name_school' => 'Unidad Educativa Vicente Leon',
             'distrit' => 'DISTRITO 05D01 - CIRCUITO C6_11 - AMIE 05H00091',
             'location' => 'Latacunga -Cotopaxi- Ecuador',
-            'address' => 'Av.Tahuantinsuyo y Cañaris/Sector la Cocha ',           
+            'address' => 'Av.Tahuantinsuyo y Cañaris/Sector la Cocha',           
             'phone' => '9999999999',
             'email' => 'info@uevicenteleon.com',
             'website' => 'https://uevicenteleon.com',
@@ -47,16 +41,84 @@ class DataPrincipalSeeder extends Seeder
             'status' => 1,
         ]);
         
-
         // Crear año escolar
         $year = Year::firstOrCreate([
             'school_id' => $school->id,
             'year_name' => $anio,
             'start_date' => $fechaInicio,
-            'end_date' =>  $fechaFin,
+            'end_date' => $fechaFin,
             'status' => 1
         ]);
-               // Crear turnos
+        
+        // [Resto del código para shifts, niveles y grados...]
+        
+        // Crear trimestres asociados al año escolar
+        $trimestres = [
+            [
+                'year_id' => $year->id,
+                'trimester_name' => 'Primer Trimestre',
+                'start_date' => Carbon::create($currentYear, 9, 1)->startOfDay(),
+                'end_date' => Carbon::create($currentYear, 12, 5)->endOfDay(),
+                'status' => 1
+            ],
+            [
+                'year_id' => $year->id,
+                'trimester_name' => 'Segundo Trimestre',
+                'start_date' => Carbon::create($currentYear, 12, 8)->startOfDay(),
+                'end_date' => Carbon::create($nextYear, 3, 20)->endOfDay(),
+                'status' => 1
+            ],
+            [
+                'year_id' => $year->id,
+                'trimester_name' => 'Tercer Trimestre',
+                'start_date' => Carbon::create($nextYear, 3, 23)->startOfDay(),
+                'end_date' => $fechaFin, // Usamos la misma fecha de fin del año escolar
+                'status' => 1
+            ]
+        ];
+
+        foreach ($trimestres as $trimestreData) {
+            // Verificar que las fechas estén dentro del rango del año escolar
+            if ($trimestreData['start_date']->lt($year->start_date)) {
+                $this->command->warn("Ajustando fecha de inicio del trimestre {$trimestreData['trimester_name']} para que no sea anterior al inicio del año escolar");
+                $trimestreData['start_date'] = $year->start_date->copy();
+            }
+
+            if ($trimestreData['end_date']->gt($year->end_date)) {
+                $this->command->warn("Ajustando fecha de fin del trimestre {$trimestreData['trimester_name']} para que no sea posterior al fin del año escolar");
+                $trimestreData['end_date'] = $year->end_date->copy();
+            }
+
+            // Verificar que no se solapen los trimestres
+            $existingTrimester = Trimester::where('year_id', $year->id)
+                ->where(function($query) use ($trimestreData) {
+                    $query->whereBetween('start_date', [$trimestreData['start_date'], $trimestreData['end_date']])
+                          ->orWhereBetween('end_date', [$trimestreData['start_date'], $trimestreData['end_date']])
+                          ->orWhere(function($q) use ($trimestreData) {
+                              $q->where('start_date', '<=', $trimestreData['start_date'])
+                                ->where('end_date', '>=', $trimestreData['end_date']);
+                          });
+                })
+                ->exists();
+
+            if ($existingTrimester) {
+                $this->command->error("No se pudo crear el trimestre {$trimestreData['trimester_name']} porque se solapa con otro trimestre existente");
+                continue;
+            }
+
+            // Crear el trimestre
+            Trimester::firstOrCreate(
+                [
+                    'year_id' => $year->id,
+                    'trimester_name' => $trimestreData['trimester_name']
+                ],
+                $trimestreData
+            );
+
+            $this->command->info("Trimestre {$trimestreData['trimester_name']} creado: {$trimestreData['start_date']->format('Y-m-d')} al {$trimestreData['end_date']->format('Y-m-d')}");
+        }
+
+         // Crear turnos
                $shifts = [
                 ['shift_name' => 'MATUTINA', 'status' => 1],
                 ['shift_name' => 'VESPERTINA', 'status' => 1],
@@ -81,7 +143,7 @@ class DataPrincipalSeeder extends Seeder
                     ['nivel_name' => 'Bachillerato_Técnico_Com', 'status' => 1],
                     ['nivel_name' => 'Bachillerato_Técnico_Dep', 'status' => 1],                  
                 ];
-    //strtoupper(
+                //strtoupper(
                 foreach ($niveles as $nivelData) {
                     $nivel = Nivel::firstOrCreate([
                         'shift_id' => $shift->id,
@@ -299,34 +361,8 @@ class DataPrincipalSeeder extends Seeder
                 ]);
             }
         }
-        // Crear trimestres
-        $trimestres = [
-            [
-                'trimester_name' => 'Primer Trimestre',
-                'start_date' => Carbon::create(2024, 8, 1),
-                'end_date' => Carbon::create(2024, 12, 20),
-                'status' => 1
-            ],
-            [
-                'trimester_name' => 'Segundo Trimestre',
-                'start_date' => Carbon::create(2024, 12, 21),
-                'end_date' => Carbon::create(2025, 3, 29),
-                'status' => 1
-            ],
-            [
-                'trimester_name' => 'Tercer Trimestre',
-                'start_date' => Carbon::create(2024, 4, 1),
-                'end_date' => Carbon::create(2025, 7, 31),
-                'status' => 1
-            ]
-        ];
 
-        foreach ($trimestres as $trimestre) {
-            Trimester::firstOrCreate($trimestre);
-        }
 
         $this->command->info('Datos iniciales de la escuela creados exitosamente!');
-
-    
     }
 }

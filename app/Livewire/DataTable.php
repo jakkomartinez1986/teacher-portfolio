@@ -56,15 +56,15 @@ class DataTable extends Component
         $this->sortField = $field;
     }
 
-    // public function openNewModal()
-    // {
-    //     if ($this->useModal) {
-    //         $modelName = $this->getModelName();
-    //         $this->dispatch('openModalFor', $modelName);
-    //     } else {
-    //         return redirect()->route($this->newRoute);
-    //     }
-    // }
+    public function openNewModal()
+    {
+        if ($this->useModal) {
+            $modelName = $this->getModelName();
+            $this->dispatch('openModalFor', $modelName);
+        } else {
+            return redirect()->route($this->newRoute);
+        }
+    }
 
     public function toggleActivation($id)
     {

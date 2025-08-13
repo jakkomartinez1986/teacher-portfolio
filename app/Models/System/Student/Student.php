@@ -67,9 +67,10 @@ class Student extends Model
     /**
      * Nombre completo del estudiante (desde User)
      */
-    public function getFullNameAttribute()
+   public function getFullNameAttribute()
     {
-        return $this->user->full_name;
+        // Cambiar de $this->user->full_name a:
+        return optional($this->user)->full_name ?? 'Sin nombre';
     }
 
     /**
@@ -91,8 +92,8 @@ class Student extends Model
 
         static::creating(function ($model) {
             if (empty($model->student_code)) {
-                // Obtener iniciales de la escuela a través del usuario
-                $schoolInitials = $model->user->school->initials();
+                // Acceso seguro a school a través de user
+                $schoolInitials = optional($model->user)->school ? $model->user->school->initials() : 'SCH';
                 $model->student_code = Str::upper($schoolInitials) . '-' . 
                                     Str::substr(Str::uuid()->toString(), 0, 8);
             }

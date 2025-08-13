@@ -15,6 +15,16 @@ class TeacherScheduleController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function __construct()
+    {
+        // Aplica el middleware para roles
+        $this->middleware('role:ADMIN|SUPER-ADMIN|DOCENTE')->only(['create', 'store', 'edit', 'update']);
+        
+        // Aplica el middleware para permisos
+        $this->middleware('permission:crear-classschedule')->only(['create', 'store']);
+        $this->middleware('permission:editar-classschedule')->only(['edit', 'update']);
+        // $this->middleware('permission:borrar-user')->only('destroy');
+    }
     public function index()
     {
         $schedules = ClassSchedule::with(['subject', 'grade'])//, 'trimester'

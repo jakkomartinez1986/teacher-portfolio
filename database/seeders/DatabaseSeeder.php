@@ -5,8 +5,12 @@ namespace Database\Seeders;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Database\Seeders\SchoolSeeder;
 use App\Models\Security\Spatie\Role;
+use Database\Seeders\PermissionsSeeder;
+use Database\Seeders\DataPrincipalSeeder;
 use App\Models\Security\Spatie\Permission;
+use Database\Seeders\DocumentCategorySeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -67,14 +71,15 @@ class DatabaseSeeder extends Seeder
                 $this->command->info('Solo se agregó la función de usuario predeterminada a lectura.');
             }
 
-           $this->command->info('Creando 20 usuarios Falsos.');
-            User::factory(20)->create();
+           $this->command->info('Creando 5 usuarios Falsos.');
+            User::factory(5)->create();
            //User::factory(20)->withPersonalTeam()->create();
           
           
            $this->call([
              //SchoolSeeder::class,
              DataPrincipalSeeder::class,
+             DocumentCategorySeeder::class,
             // GradeSeeder::class,
             // DepartamentSeeder::class,
             // SubjectSeeder::class,

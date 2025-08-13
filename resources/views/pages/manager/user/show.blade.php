@@ -17,9 +17,7 @@
                 <!-- Información principal -->
                 <div class="space-y-4">
                     <div class="flex flex-col items-center">
-                        <img src="{{ asset('storage/' .$user->defaultUserPhotoUrl() ) }}" 
-                             alt="Foto de perfil" 
-                             class="h-24 w-24 rounded-full object-cover mb-4">
+                        <flux:avatar size="lg" src="{{asset($user->defaultUserPhotoUrl()) }}"/>
                         <h3 class="text-lg font-medium text-neutral-800 dark:text-neutral-200">{{ $user->full_name }}</h3>
                         <p class="text-sm text-neutral-500 dark:text-neutral-400">{{ $user->email }}</p>
                     </div>
@@ -79,9 +77,10 @@
                     <div>
                         <p class="text-sm font-medium text-neutral-500 dark:text-neutral-400">Firma</p>
                         <div class="mt-2">
-                            <img src="{{ $user->defaultSignaturePhotoUrl() }}" 
+                            <flux:avatar size="lg" src="{{asset($user->defaultSignaturePhotoUrl()) }}"/>
+                            {{-- <img src="{{ $user->defaultSignaturePhotoUrl() }}" 
                                  alt="Firma" 
-                                 class="h-20 w-48 object-contain border rounded-md">
+                                 class="h-20 w-48 object-contain border rounded-md"> --}}
                         </div>
                     </div>
                     

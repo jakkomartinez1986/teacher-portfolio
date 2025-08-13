@@ -45,7 +45,7 @@
             <td class="px-4 py-3">{{ $item->id }}</td>
         
             <td class="px-4 py-3 flex items-center gap-2">
-                <flux:avatar src="{{asset('storage/' . $item->defaultUserPhotoUrl()) }}" size="xs" />
+                <flux:avatar src="{{asset($item->defaultUserPhotoUrl()) }}"  />
                 <span class="max-md:hidden">{{ $item->getFullNameAttribute() }}</span>
             </td>
         

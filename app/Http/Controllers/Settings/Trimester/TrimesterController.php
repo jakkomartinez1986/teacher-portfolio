@@ -4,96 +4,81 @@ namespace App\Http\Controllers\Settings\Trimester;
 
 use App\Http\Controllers\Controller;
 use App\Models\Settings\Trimester\Trimester;
+use App\Models\Settings\School\Year;
 use Illuminate\Http\Request;
 
 class TrimesterController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function __construct()
     {
-        // Aplica el middleware para roles
         $this->middleware('role:ADMIN|SUPER-ADMIN')->only(['create', 'store', 'edit', 'update']);
-        
-        // Aplica el middleware para permisos
         $this->middleware('permission:crear-trimester')->only(['create', 'store']);
         $this->middleware('permission:editar-trimester')->only(['edit', 'update']);
-        // $this->middleware('permission:borrar-user')->only('destroy');
     }
+
     public function index()
     {
-        //
-        return view('pages.settings.trimester.index');
+        $trimesters = Trimester::with('year')
+            ->latest()
+            ->paginate(10);
+            
+        return view('pages.settings.trimester.index', compact('trimesters'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
-        return view('pages.settings.trimester.create-edit');
+        $years = Year::active()->latest()->get();
+        return view('pages.settings.trimester.create-edit', compact('years'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
         $validated = $request->validate([
-            'trimester_name' => 'required|string|max:255',
-            'start_date' => 'required|date',
+            'year_id' => 'required|exists:years,id',
+            'trimester_name' => 'required|string|max:255|unique:trimesters,trimester_name',
+            'start_date' => 'required|date|after_or_equal:today',
             'end_date' => 'required|date|after_or_equal:start_date',
-            'status' => 'required|integer|in:0,1',
+            'status' => 'required|boolean',
         ]);
 
         Trimester::create($validated);
 
         return redirect()->route('settings.trimesters.index')
-                         ->with('success', 'Trimestre creado exitosamente.');
+            ->with('success', 'Trimestre creado exitosamente.');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Trimester $trimester)
     {
+        $trimester->load('year');
         return view('pages.settings.trimester.show', compact('trimester'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Trimester $trimester)
     {
-        return view('pages.settings.trimester.create-edit', compact('trimester'));
+        $years = Year::active()->latest()->get();
+        return view('pages.settings.trimester.create-edit', compact('trimester', 'years'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Trimester $trimester)
     {
         $validated = $request->validate([
-            'trimester_name' => 'required|string|max:255',
+            'year_id' => 'required|exists:years,id',
+            'trimester_name' => 'required|string|max:255|unique:trimesters,trimester_name,'.$trimester->id,
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
-            'status' => 'required|integer|in:0,1',
+            'status' => 'required|boolean',
         ]);
 
         $trimester->update($validated);
 
         return redirect()->route('settings.trimesters.index')
-                         ->with('success', 'Trimestre actualizado exitosamente.');
+            ->with('success', 'Trimestre actualizado exitosamente.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Trimester $trimester)
     {
-        //
+        $trimester->delete();
+        return redirect()->route('settings.trimesters.index')
+            ->with('success', 'Trimestre eliminado exitosamente.');
     }
 }

@@ -4,6 +4,7 @@ namespace App\Livewire\System\Teacher;
 
 use Livewire\Component;
 use App\Models\Settings\Area\Area;
+use App\Models\Settings\School\Year;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Settings\Area\Subject;
 use App\Models\Settings\School\Grade;
@@ -138,18 +139,20 @@ class TeacherScheduleForm extends Component
     public function save()
     {
         $this->validate();
+        $year = Year::where('status', 1)->first();
         $gradeactive = Grade::find($this->selectedGrade);
         $data = [
+            'year_id' => $year->id,
             'teacher_id' => Auth::id(),
             'subject_id' => $this->selectedSubject,
             'grade_id' => $this->selectedGrade,
             'day' => $this->day,
             'start_time' => $this->start_time,
             'end_time' => $this->end_time,
-            'classroom' => $gradeactive->grade_name.' - '.$gradeactive->section.' - '.$gradeactive->nivel->nivel_name,
+            'classroom' => $gradeactive->grade_name.' - '.$gradeactive->section,//.' - '.$gradeactive->nivel->nivel_name,
             'is_active' => true
         ];
-        
+        //dd($data);
         if ($this->editMode) {
             $horario = ClassSchedule::findOrFail($this->horarioId);
             $horario->update($data);
@@ -158,13 +161,12 @@ class TeacherScheduleForm extends Component
             if(strtoupper($subject->subject_name) == strtoupper('Acompañamiento integral en el aula')){
                 if (!$user->hasRole('TUTOR')) {
                     $user->assignRole('TUTOR');
-                }
-                
-                if (!$user->hasRole('DOCENTE')) {
-                    $user->assignRole('DOCENTE');
-                }             
+                }                
+                         
             }               
-           
+            if (!$user->hasRole('DOCENTE')) {
+                $user->assignRole('DOCENTE');
+            }   
 
             $this->dispatch('swal',[
                 'title'=>'Actualizado!',

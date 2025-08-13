@@ -3,6 +3,7 @@
 namespace App\Models\System\Teacher;
 
 use App\Models\User;
+use App\Models\Settings\School\Year;
 use App\Models\Settings\Area\Subject;
 use App\Models\Settings\School\Grade;
 use Illuminate\Database\Eloquent\Model;
@@ -13,6 +14,7 @@ class ClassSchedule extends Model
 {
     use HasFactory, SoftDeletes;
     protected $fillable = [
+        'year_id',
         'teacher_id',
         'subject_id',
         'grade_id',
@@ -32,6 +34,10 @@ class ClassSchedule extends Model
     ];
     
     // Relaciones
+    // public function year()
+    // {
+    //     return $this->belongsTo(Year::class, 'year_id');
+    // }
     public function teacher()
     {
         return $this->belongsTo(User::class, 'teacher_id');

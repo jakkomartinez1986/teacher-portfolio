@@ -83,7 +83,7 @@ class User extends Authenticatable //implements MustVerifyEmail
             $fotografia= 'https://ui-avatars.com/api/?name='.$this->initials().'&background=6875F5&color=f5f5f5';//&background=6875F5&color=f5f5f5
             
         } else {
-            $fotografia=$this->profile_photo_path;
+            $fotografia='storage/' .$this->profile_photo_path;
         }
         
         return $fotografia;
@@ -97,14 +97,14 @@ class User extends Authenticatable //implements MustVerifyEmail
             $signatureohoto= 'https://ui-avatars.com/api/?name=SF&background=6875F5&color=f5f5f5';//&background=6875F5&color=f5f5f5
             
         } else {
-            $signatureohoto=$this->signature_photo_path;
+            $signatureohoto='storage/' .$this->signature_photo_path;
         }
         
         return $signatureohoto;
     }
     public function getFullNameAttribute()
     {
-        return $this->name . ' ' . $this->lastname;
+        return $this->lastname . ' ' . $this->name;
     }
     public function getContactsAttribute()
     {
@@ -174,8 +174,14 @@ class User extends Authenticatable //implements MustVerifyEmail
             'grade_id' // Local key en class_schedules
         )->distinct();
     }
-        public function student()
+    public function student()
     {
         return $this->hasOne(Student::class);
+    }
+
+    public function classSchedules()
+    {
+        return $this->hasMany(ClassSchedule::class, 'teacher_id')
+            ->with('grade', 'subject');
     }
 }

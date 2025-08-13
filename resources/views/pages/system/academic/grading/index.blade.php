@@ -121,11 +121,11 @@
                                     <th rowspan="2" class="px-4 py-3 text-left text-xs font-medium text-neutral-500 dark:text-neutral-300 uppercase tracking-wider">Estudiantes</th>
                                     
                                     <!-- Evaluación Formativa 70% -->
-                                    @if($activities->count() > 0)
+                                    {{-- @if($activities->count() > 0) --}}
                                         <th colspan="{{ $activities->count() }}" class="px-4 py-3 text-center text-xs font-medium text-white uppercase tracking-wider bg-blue-600">
                                             Evaluación Formativa 70%
                                         </th>
-                                    @endif
+                                    {{-- @endif --}}
                                     
                                     <!-- Evaluación Sumativa 30% -->
                                     <th colspan="2" class="px-4 py-3 text-center text-xs font-medium text-white uppercase tracking-wider bg-green-600">

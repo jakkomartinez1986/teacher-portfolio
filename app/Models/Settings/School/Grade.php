@@ -4,7 +4,9 @@ namespace App\Models\Settings\School;
 
 use App\Models\Document\Document;
 use App\Models\Settings\School\Nivel;
+use App\Models\System\Student\Student;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\System\Teacher\ClassSchedule;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Grade extends Model
@@ -31,9 +33,19 @@ class Grade extends Model
             : static::where('grade_name', 'ilike', '%'.strtoupper($query).'%');
     }
 
-        public function documents()
+    public function documents()
     {
         return $this->belongsToMany(Document::class, 'document_subject_grade')
                 ->withPivot('subject_id');
     }
+   public function students()
+    {
+        return $this->hasMany(Student::class, 'current_grade_id');
+    }
+    // Grade.php
+    public function classSchedules()
+    {
+        return $this->hasMany(ClassSchedule::class);
+    }
+
 }

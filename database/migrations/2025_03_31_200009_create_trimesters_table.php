@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('trimesters', function (Blueprint $table) {
             $table->id();
+             $table->unsignedBigInteger('year_id');
             $table->string('trimester_name')->comment('trimestres'); 
             $table->date('start_date')->comment('inicio trimestre');
             $table->date('end_date')->comment('fin trimestre'); 
             $table->integer('status')->default(0);
+             $table->foreign('year_id')->references('id')->on('years')->onUpdate('cascade')->onDelete('no action');
             $table->timestamps();
             $table->softDeletes();
         });

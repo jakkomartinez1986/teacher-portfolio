@@ -1,3 +1,21 @@
+<style>
+    .sticky {
+        position: sticky;
+    }
+    .left-0 {
+        left: 0;
+    }
+    .z-10 {
+        z-index: 10;
+    }
+    
+    
+    /* Opcional: para el contenedor de la tabla */
+    .table-container {
+        overflow-x: auto;
+        width: 100%;
+    }
+</style>
 <x-layouts.app :title="__('Dashboard')">
     <div class="flex h-full w-full flex-1 flex-col gap-4 rounded-xl">
         <flux:breadcrumbs>
@@ -17,21 +35,80 @@
             @endif
 
         <div class="relative h-full flex-1 overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700">
-            {{-- @livewire('data-table', [
-                'model' => \App\Models\Settings\Area\Area::class,
-                'view' => 'livewire.tables.area.area-data-columns',
-                'showRoute'=>'settings.areas.show',
-                'editRoute'=>'settings.areas.edit',
-                'newRoute'=>'settings.areas.create',
-            ])       --}}
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+                <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-4">
+                    Horario:
+                    <span class="block text-base font-normal text-gray-600 dark:text-gray-400 mt-1">
+                         {{$grado}}
+                    </span>
+                </h1>
+                  @php
+                    $dias = ['LUNES', 'MARTES', 'MIÉRCOLES', 'JUEVES', 'VIERNES'];
 
-           
-             <!-- Botones de acción -->                           
-             <div class="flex space-x-4 mt-6 pt-4 justify-end">                   
-                <flux:button icon="arrow-uturn-left" href="{{ route('academic.class-schedules.index') }}" > {{ __(' Volver a la Lista') }}</flux:button>
-                @can('crear-classschedule')
-                    <flux:button icon="pencil" href="{{ route('academic.class-schedules.create') }}" > {{ __(' Crear Horario') }}</flux:button>
-                @endcan
+                    // Determina duración del bloque
+                    $duracionBloque = str_contains($grado, 'BT Técnico') ? 40 : 45;
+
+                    // Genera bloques de clase a partir del horario original
+                    $bloques = collect();
+
+                    foreach ($gradohorario as $clase) {
+                        $inicio = $clase->start_time->copy();
+                        $fin = $clase->end_time->copy();
+
+                        while ($inicio < $fin) {
+                            $bloques->push([
+                                'day' => $clase->day,
+                                'start_time' => $inicio->copy(),
+                                'end_time' => $inicio->copy()->addMinutes($duracionBloque),
+                                'subject' => $clase->subject->subject_name,
+                                'teacher' => $clase->teacher->getFullNameAttribute(),
+                            ]);
+                            $inicio->addMinutes($duracionBloque);
+                        }
+                    }
+
+                    // Extrae las horas únicas y ordénalas
+                    $horas = $bloques->pluck('start_time')->unique()->sort();
+                @endphp
+            <div class="table-container">
+                <div class="overflow-x-auto w-full">
+                    <table class="min-w-full border border-collapse text-sm whitespace-nowrap">
+                        <thead>
+                            <tr class="text-xs border-b uppercase font-semibold tracking-wider bg-gray-100 dark:bg-gray-800">
+                                <th class="border px-2 py-2 sticky left-0 bg-white dark:bg-gray-900 z-10">Hora</th>
+                                @foreach ($dias as $dia)
+                                    <th class="border px-2 py-2 capitalize text-center">{{ $dia }}</th>
+                                @endforeach
+                            </tr>
+                        </thead>
+                        <tbody>                         
+                            @foreach ($horas as $hora)
+                                <tr>
+                                    <td class="sticky left-0 z-10 border px-2 py-2 text-center font-medium">
+                                        {{ $hora->format('H:i') }} - {{ $hora->copy()->addMinutes($duracionBloque)->format('H:i') }}
+                                    </td>
+
+                                    @foreach ($dias as $dia)
+                                        @php
+                                            $bloque = $bloques->first(function ($b) use ($dia, $hora) {
+                                                return $b['day'] === $dia && $b['start_time']->format('H:i') === $hora->format('H:i');
+                                            });
+                                        @endphp
+
+                                        <td class="border px-2 py-2 text-center">
+                                            @if ($bloque)
+                                                <div class="font-semibold">{{ $bloque['subject'] }}</div>
+                                                <div class="text-xs text-gray-600">{{ $bloque['teacher'] }}</div>
+                                            @endif
+                                        </td>
+                                    @endforeach
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
             </div>
         </div>
     </div>

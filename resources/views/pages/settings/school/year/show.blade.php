@@ -67,13 +67,50 @@
                                     <li class="p-3 hover:bg-neutral-50 dark:hover:bg-neutral-700">
                                         <div class="flex items-center justify-between">
                                             <div>
-                                                <p class="font-medium text-neutral-800 dark:text-neutral-200">{{ $shift->name }}</p>
+                                                <p class="font-medium text-neutral-800 dark:text-neutral-200">{{ $shift->shift_name }}</p>
                                                 <p class="text-sm text-neutral-500 dark:text-neutral-400">
-                                                    {{ $shift->start_time }} - {{ $shift->end_time }}
+                                                    {{ $shift->start_date }} - {{ $shift->end_date }}
                                                 </p>
                                             </div>
                                             <div class="flex gap-2">
                                                 <a href="{{ route('settings.shifts.edit', $shift) }}" 
+                                                   class="text-primary-600 hover:text-primary-900 dark:text-primary-400 dark:hover:text-primary-300">
+                                                    Editar
+                                                </a>
+                                               
+                                            </div>
+                                        </div>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                </div>
+                 <!-- Trimestres asociados -->
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-lg font-medium text-neutral-700 dark:text-neutral-300">Trimestres</h3>
+                       
+                    </div>
+                    
+                    @if($year->trimesters->isEmpty())
+                        <div class="rounded-md bg-neutral-50 p-4 dark:bg-neutral-700">
+                            <p class="text-center text-neutral-500 dark:text-neutral-300">No hay Periodos registrados para este año</p>
+                        </div>
+                    @else
+                        <div class="overflow-hidden rounded-md border border-neutral-200 dark:border-neutral-700">
+                            <ul class="divide-y divide-neutral-200 dark:divide-neutral-700">
+                                @foreach($year->trimesters as $trimester)
+                                    <li class="p-3 hover:bg-neutral-50 dark:hover:bg-neutral-700">
+                                        <div class="flex items-center justify-between">
+                                            <div>
+                                                <p class="font-medium text-neutral-800 dark:text-neutral-200">{{ $trimester->trimester_name }}</p>
+                                                <p class="text-sm text-neutral-500 dark:text-neutral-400">
+                                                    {{ $trimester->start_date }} - {{ $trimester->end_date }}
+                                                </p>
+                                            </div>
+                                            <div class="flex gap-2">
+                                                <a href="{{ route('settings.trimesters.edit', $trimester) }}" 
                                                    class="text-primary-600 hover:text-primary-900 dark:text-primary-400 dark:hover:text-primary-300">
                                                     Editar
                                                 </a>

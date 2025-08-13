@@ -28,7 +28,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
         $validated = $this->validate([
             'name' => ['required', 'string', 'max:255'],
             'lastname' => ['required', 'string', 'max:255'],
-            'dni' => ['required', 'regex:/[0-9]{9}/', 'size:10','unique:' . User::class],
+            'dni' => ['required','ec_cedula', 'regex:/[0-9]{9}/', 'size:10','unique:' . User::class],
             'phone' => ['required', 'regex:/[0-9]{9}/', 'size:10'],
             'cellphone' => ['required', 'regex:/[0-9]{9}/', 'size:10'],
             'address' => ['required', 'string', 'max:255'],

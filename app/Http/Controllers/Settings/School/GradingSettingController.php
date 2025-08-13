@@ -10,6 +10,16 @@ use App\Models\Settings\School\GradingSetting;
 
 class GradingSettingController extends Controller
 {
+      public function __construct()
+    {
+        // Aplica el middleware para roles
+        $this->middleware('role:ADMIN|SUPER-ADMIN')->only(['create', 'store', 'edit', 'update']);
+        
+        // Aplica el middleware para permisos
+        $this->middleware('permission:crear-gradingsetting')->only(['create', 'store']);
+        $this->middleware('permission:editar-gradingsetting')->only(['edit', 'update']);
+        // $this->middleware('permission:borrar-user')->only('destroy');
+    }
     public function index()
     {
         return view('pages.settings.school.gradingsetting.index');

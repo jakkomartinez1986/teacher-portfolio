@@ -1,11 +1,28 @@
 <?php
 
-use App\Http\Controllers\System\Teacher\AcademicGradingController;
-use App\Http\Controllers\System\Teacher\ClassScheludeController;
-use App\Http\Controllers\System\Teacher\TeacherScheduleController;
 use Illuminate\Support\Facades\Route;
-Route::resource('/class-schedules', ClassScheludeController::class); 
+use App\Http\Controllers\System\Attendance\AttendanceController;
+use App\Http\Controllers\System\Teacher\ClassScheduleController;
+use App\Http\Controllers\System\Teacher\AcademicGradingController;
+use App\Http\Controllers\System\Teacher\TeacherScheduleController;
+use App\Http\Controllers\System\Teacher\PerformanceSummaryController;
+use App\Http\Controllers\System\Attendance\AttendanceDashboardController;
+Route::resource('/class-schedules', ClassScheduleController::class); 
 Route::resource('/teacher-schedule', TeacherScheduleController::class); 
+Route::resource('/summary', PerformanceSummaryController::class); 
+Route::resource('/attendance', AttendanceController::class); 
+// Route::resource('/attendance-dashboard', AttendanceDashboardController::class);
+Route::controller(AttendanceDashboardController::class)->group(function() {
+    Route::get('/attendance-teacher-dashboard', 'teacherdashboard')
+        ->name('attendance-dashboard-teacher');
+    Route::get('/attendance-teacher-incident-dashboard', 'teacherincidentdashboard')
+        ->name('attendance-dashboard-teacher-incident');
+    
+    Route::get('/attendance-tutor-dashboard', 'tutordashboard')
+        ->name('attendance-dashboard-tutor');
+    Route::get('/attendance-tutor-incident', 'tutorincidentdashboard')
+        ->name('attendance-dashboard-incident-tutor');
+});
 Route::get('grading-summary', [AcademicGradingController::class, 'index'])->name('grading-summary.index');
  // Guardar calificaciones
 Route::post('grading-summary', [AcademicGradingController::class, 'store'])->name('grading-summary.store');

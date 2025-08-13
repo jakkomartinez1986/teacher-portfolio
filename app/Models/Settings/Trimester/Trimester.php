@@ -2,6 +2,8 @@
 
 namespace App\Models\Settings\Trimester;
 
+use Illuminate\Support\Carbon;
+use App\Models\Settings\School\Year;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -15,6 +17,7 @@ class Trimester extends Model
      * @var array
      */
     protected $fillable = [
+        'year_id',
         'trimester_name',
         'status',
         'start_date',
@@ -77,10 +80,40 @@ class Trimester extends Model
     {
         return $query->where('status', 0);
     }
-
+ // Relación con Year
+    public function year()
+    {
+        return $this->belongsTo(Year::class);
+    }
     public static function search($query)
     {
         return empty($query) ? static::query()
             : static::where('area_name', 'ilike', '%'.strtoupper($query).'%');
+    }
+
+    
+    public function isCurrentlyActive()
+    {
+        $today = Carbon::today();
+
+        return $this->status == 1 &&
+            $this->start_date <= $today &&
+            $this->end_date >= $today;
+    }
+
+     public function estadoTrimestre()
+    {      
+       
+        return match((int) $this->status) {
+           
+            0 => 'Inactivo',
+            1 => 'Activo',
+            default => 'Desconocido', // Por si en el futuro hay otro valor como 2, 3, etc.
+        };
+    }
+
+    public function getDurationDaysAttribute()
+    {
+        return $this->start_date->diffInDays($this->end_date) + 1; // +1 para incluir ambos días
     }
 }
