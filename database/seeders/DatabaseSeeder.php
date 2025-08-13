@@ -71,8 +71,8 @@ class DatabaseSeeder extends Seeder
                 $this->command->info('Solo se agregó la función de usuario predeterminada a lectura.');
             }
 
-           $this->command->info('Creando 5 usuarios Falsos.');
-            User::factory(5)->create();
+        //    $this->command->info('Creando 5 usuarios Falsos.');
+        //     User::factory(5)->create();
            //User::factory(20)->withPersonalTeam()->create();
           
           
