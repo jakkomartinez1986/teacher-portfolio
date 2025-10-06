@@ -70,14 +70,14 @@ new #[Layout('components.layouts.auth')] class extends Component {
     <form wire:submit="register" class="flex flex-col gap-6">
        <!-- Name -->
        <flux:input
-       class="col-span-1"
-       wire:model="name"
-       :label="__('Name')"
-       type="text"
-       required
-       autofocus
-       autocomplete="name"
-       :placeholder="__('Name')"
+        class="col-span-1"
+        wire:model="name"
+        :label="__('Name')"
+        type="text"
+        required
+        autofocus
+        autocomplete="name"
+        :placeholder="__('Name')"
         />
        <!-- Last Name -->
         <flux:input
@@ -100,11 +100,11 @@ new #[Layout('components.layouts.auth')] class extends Component {
             />
         <!-- direccion -->
         <flux:input
-        wire:model="address"
-        type="text"
-        :label="__('Direccion')"
-        required
-        placeholder="Latacunga, avenida los chasquis n° 123"
+            wire:model="address"
+            type="text"
+            :label="__('Direccion')"
+            required
+            placeholder="Latacunga, avenida los chasquis n° 123"
         />
         <!-- Telefono Convencional -->
         <flux:input
@@ -122,8 +122,6 @@ new #[Layout('components.layouts.auth')] class extends Component {
             required
             placeholder="0999999999"
         />
-
-
         <!-- Email Address -->
         <flux:input
             wire:model="email"
@@ -133,7 +131,6 @@ new #[Layout('components.layouts.auth')] class extends Component {
             autocomplete="email"
             placeholder="email@example.com"
         />
-
         <!-- Password -->
         <flux:input
             wire:model="password"
@@ -143,7 +140,6 @@ new #[Layout('components.layouts.auth')] class extends Component {
             autocomplete="new-password"
             :placeholder="__('Password')"
         />
-
         <!-- Confirm Password -->
         <flux:input
             wire:model="password_confirmation"

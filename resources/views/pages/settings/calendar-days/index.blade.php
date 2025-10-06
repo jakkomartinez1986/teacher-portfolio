@@ -5,12 +5,17 @@
             <flux:breadcrumbs.item>Calendario Académico</flux:breadcrumbs.item>
         </flux:breadcrumbs>
         
-        <div class="flex flex-col gap-6 rounded-xl border border-neutral-200  p-6 dark:border-neutral-700 dark:bg-neutral-800">
+        <div class="flex flex-col gap-6 rounded-xl border border-neutral-200 p-6 dark:border-neutral-700 dark:bg-neutral-800">
             <!-- Header y controles -->
             <div class="flex flex-wrap justify-between items-center gap-4">
-                <h2 class="text-xl font-semibold text-neutral-800 dark:text-neutral-100">
-                    Calendario Académico
-                </h2>
+                <div>
+                    <h2 class="text-xl font-semibold text-neutral-800 dark:text-neutral-100">
+                        Calendario Académico
+                    </h2>
+                    <p class="text-sm text-neutral-600 dark:text-neutral-400 mt-1">
+                        {{ now()->translatedFormat('F Y') }}
+                    </p>
+                </div>
                 
                 <div class="flex items-center gap-4">
                     @can('crear-calendarday')
@@ -28,399 +33,463 @@
             </div>
             
             <!-- Filtros -->
-            <form method="GET" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <form method="GET" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <!-- Año Académico -->
                 <div>
-                    <label for="year_id" class="block mb-2 text-sm font-medium text-neutral-700 dark:text-neutral-300">Año Académico</label>
-                    <select 
-                        id="year_id" 
-                        name="year_id" 
-                        class="w-full rounded-lg border border-neutral-200 bg-white px-3 py-2 text-neutral-700 shadow-sm transition-colors
-                            focus:border-primary-500 focus:ring focus:ring-primary-200 focus:ring-opacity-50
-                            dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300 dark:focus:border-primary-500 dark:focus:ring-primary-800"
-                    >
-                        <option value="">Todos los años</option>
+                    <label for="year_id" class="block mb-2 text-sm font-medium text-neutral-700 dark:text-neutral-300">
+                        Año Académico
+                    </label>
+                    <select id="year_id" name="year_id" 
+                        class="w-full rounded-lg border border-neutral-300 bg-white px-3 py-2 text-neutral-900 shadow-sm transition-all duration-200
+                            focus:border-primary-500 focus:ring-2 focus:ring-primary-200 focus:ring-opacity-50 focus:outline-none
+                            dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-100 dark:placeholder-neutral-400
+                            dark:focus:border-primary-500 dark:focus:ring-primary-800
+                            hover:border-neutral-400 dark:hover:border-neutral-500">
+                        <option value="" class="bg-white dark:bg-neutral-700 text-neutral-900 dark:text-neutral-100">
+                            Todos los años
+                        </option>
                         @foreach($years as $year)
-                            <option 
-                                value="{{ $year->id }}" 
+                            <option value="{{ $year->id }}" 
                                 {{ $selectedYear == $year->id ? 'selected' : '' }}
-                                class="bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-300"
-                            >
+                                class="bg-white dark:bg-neutral-700 text-neutral-900 dark:text-neutral-100">
                                 {{ $year->year_name }}
                             </option>
                         @endforeach
                     </select>
                 </div>
                 
+                <!-- Trimestre -->
                 <div>
-                    <label for="trimester_id" class="block mb-2 text-sm font-medium text-neutral-700 dark:text-neutral-300">Trimestre</label>
-                    <select 
-                        id="trimester_id" 
-                        name="trimester_id" 
-                        class="w-full rounded-lg border border-neutral-200 bg-white px-3 py-2 text-neutral-700 shadow-sm transition-colors
-                            focus:border-primary-500 focus:ring focus:ring-primary-200 focus:ring-opacity-50
-                            dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300 dark:focus:border-primary-500 dark:focus:ring-primary-800"
-                    >
-                        <option value="">Todos los trimestres</option>
+                    <label for="trimester_id" class="block mb-2 text-sm font-medium text-neutral-700 dark:text-neutral-300">
+                        Trimestre
+                    </label>
+                    <select id="trimester_id" name="trimester_id"
+                        class="w-full rounded-lg border border-neutral-300 bg-white px-3 py-2 text-neutral-900 shadow-sm transition-all duration-200
+                            focus:border-primary-500 focus:ring-2 focus:ring-primary-200 focus:ring-opacity-50 focus:outline-none
+                            dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-100 dark:placeholder-neutral-400
+                            dark:focus:border-primary-500 dark:focus:ring-primary-800
+                            hover:border-neutral-400 dark:hover:border-neutral-500">
+                        <option value="" class="bg-white dark:bg-neutral-700 text-neutral-900 dark:text-neutral-100">
+                            Todos los trimestres
+                        </option>
                         @foreach($trimesters as $trimester)
-                            <option 
-                                value="{{ $trimester->id }}" 
+                            <option value="{{ $trimester->id }}" 
                                 {{ $selectedTrimester == $trimester->id ? 'selected' : '' }}
-                                class="bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-300"
-                            >
+                                class="bg-white dark:bg-neutral-700 text-neutral-900 dark:text-neutral-100">
                                 {{ $trimester->trimester_name }}
                             </option>
                         @endforeach
                     </select>
                 </div>
+
+                <!-- Mes -->
+                <div>
+                    <label for="month" class="block mb-2 text-sm font-medium text-neutral-700 dark:text-neutral-300">
+                        Mes
+                    </label>
+                    <select id="month" name="month"
+                        class="w-full rounded-lg border border-neutral-300 bg-white px-3 py-2 text-neutral-900 shadow-sm transition-all duration-200
+                            focus:border-primary-500 focus:ring-2 focus:ring-primary-200 focus:ring-opacity-50 focus:outline-none
+                            dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-100 dark:placeholder-neutral-400
+                            dark:focus:border-primary-500 dark:focus:ring-primary-800
+                            hover:border-neutral-400 dark:hover:border-neutral-500">
+                        @foreach(range(1, 12) as $month)
+                            @php
+                                $date = Carbon\Carbon::create(null, $month, 1);
+                            @endphp
+                            <option value="{{ $month }}" 
+                                {{ $selectedMonth == $month ? 'selected' : '' }}
+                                class="bg-white dark:bg-neutral-700 text-neutral-900 dark:text-neutral-100">
+                                {{ $date->translatedFormat('F') }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
                 
+                <!-- Botón Filtrar -->
                 <div class="flex items-end">                    
-                    <flux:button    type="submit"  icon="funnel" 
-                    variant="primary" color="indigo">Filtrar
-                    </flux:button>
+                    <button type="submit"
+                        class="w-full md:w-auto inline-flex items-center justify-center gap-2 rounded-lg bg-primary-600 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition-all duration-200
+                            hover:bg-primary-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2
+                            active:bg-primary-800 active:scale-95
+                            dark:bg-primary-700 dark:hover:bg-primary-600 dark:focus:ring-offset-neutral-800">
+                        <i class="fas fa-funnel text-xs"></i>
+                        <span>Filtrar</span>
+                    </button>
                 </div>
             </form>
-            
-           <div class="flex flex-col lg:flex-row gap-6">
-    <!-- Calendario -->
-    <div class="w-full lg:w-2/3">
-        <div id="calendar" class="calendar-container">
-            <!-- Mes y controles de navegación -->
-            <div class="calendar-header">
-                <div class="calendar-nav">
-                    <button id="prev-month" class="calendar-nav-button">
-                        <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <h3 id="current-month" class="calendar-month-title">
-                        {{ now()->translatedFormat('F Y') }}
-                    </h3>
-                    <button id="next-month" class="calendar-nav-button">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
+
+            <!-- Leyenda de Trimestres -->
+            <div class="flex flex-wrap gap-4 p-4 bg-neutral-50 dark:bg-neutral-700 rounded-lg">
+                <div class="flex items-center gap-2">
+                    <div class="w-4 h-4 rounded bg-indigo-500"></div>
+                    <span class="text-sm text-neutral-700 dark:text-neutral-300">Primer Trimestre</span>
                 </div>
-                <div class="calendar-days-header">
-                    @foreach(['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'] as $day)
-                        <div class="calendar-day-header">{{ $day }}</div>
-                    @endforeach
+                <div class="flex items-center gap-2">
+                    <div class="w-4 h-4 rounded bg-purple-500"></div>
+                    <span class="text-sm text-neutral-700 dark:text-neutral-300">Segundo Trimestre</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <div class="w-4 h-4 rounded bg-pink-500"></div>
+                    <span class="text-sm text-neutral-700 dark:text-neutral-300">Tercer Trimestre</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <div class="w-4 h-4 rounded bg-red-500"></div>
+                    <span class="text-sm text-neutral-700 dark:text-neutral-300">Feriados</span>
                 </div>
             </div>
             
-            <!-- Días del calendario -->
-            <div class="calendar-grid">
-                @php
-                    $firstDay = now()->startOfMonth();
-                    $startDay = $firstDay->dayOfWeekIso - 1; // Ajuste para que empiece en lunes
-                    $daysInMonth = $firstDay->daysInMonth;
-                @endphp
-                
-                @for($i = 0; $i < 6; $i++)
-                    <div class="calendar-week">
-                        @for($j = 0; $j < 7; $j++)
-                            @php
-                                $dayNumber = $i * 7 + $j - $startDay + 1;
-                                $isCurrentMonth = $dayNumber > 0 && $dayNumber <= $daysInMonth;
-                                $currentDate = $isCurrentMonth 
-                                    ? $firstDay->copy()->addDays($dayNumber - 1)
-                                    : null;
-                                $dateStr = $currentDate ? $currentDate->format('Y-m-d') : '';
-                                $dayEvents = $events->where('start', $dateStr);
-                            @endphp
-                            
-                            <div class="calendar-day {{ !$isCurrentMonth ? 'empty' : '' }} 
-                                {{ $dateStr === $currentDate ? 'today' : '' }}
-                                {{ $dayEvents->count() ? 'has-events' : '' }}"
-                                data-date="{{ $dateStr }}">
+            <div class="flex flex-col lg:flex-row gap-6">
+                <!-- Calendario Principal -->
+                <div class="w-full lg:w-2/3">
+                    <div class="calendar-container bg-white dark:bg-neutral-800 rounded-lg shadow">
+                        <!-- Header del Calendario -->
+                        <div class="calendar-header bg-white dark:bg-neutral-800 p-4 border-b border-neutral-200 dark:border-neutral-700">
+                            <div class="flex justify-between items-center mb-4">
+                                <button onclick="changeMonth(-1)" class="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
                                 
-                                @if($isCurrentMonth)
-                                    <div class="calendar-day-number">{{ $dayNumber }}</div>
-                                    <div class="calendar-events">
-                                        @foreach($dayEvents->take(2) as $event)
-                                            <div class="calendar-event" 
-                                                 style="background-color: {{ $event['color'] }}"
-                                                 title="{{ $event['title'] }}">
-                                                {{ Str::limit($event['title'], 10) }}
-                                            </div>
-                                        @endforeach
-                                        @if($dayEvents->count() > 2)
-                                            <div class="calendar-event-more">
-                                                +{{ $dayEvents->count() - 2 }} más
+                                <h3 class="text-lg font-semibold text-neutral-800 dark:text-neutral-200" id="current-month">
+                                    {{ $currentMonth->translatedFormat('F Y') }}
+                                </h3>
+                                
+                                <button onclick="changeMonth(1)" class="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                            
+                            <!-- Días de la semana -->
+                            <div class="grid grid-cols-7 gap-1 mb-2">
+                                @foreach(['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'] as $day)
+                                    <div class="text-center text-sm font-medium text-neutral-600 dark:text-neutral-400 py-2">
+                                        {{ $day }}
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                       
+                        <!-- Grid del Calendario -->
+                        <div class="calendar-grid p-4">
+                            <div class="grid grid-cols-7 gap-1">
+                                @php
+                                    $firstDay = $currentMonth->copy()->startOfMonth();
+                                    $startDay = $firstDay->dayOfWeekIso - 1; // Lunes = 0
+                                    $daysInMonth = $firstDay->daysInMonth;
+                                    $currentDay = $firstDay->copy()->subDays($startDay);
+                                @endphp
+
+                                @for($i = 0; $i < 42; $i++) <!-- 6 semanas -->
+                                    @php
+                                        $isCurrentMonth = $currentDay->month == $currentMonth->month;
+                                        $dateStr = $currentDay->format('Y-m-d');
+                                        $dayEvents = $calendarDays->where('date', $dateStr);
+                                        $isToday = $dateStr == now()->format('Y-m-d');
+                                        
+                                        // Obtener el color del trimestre
+                                        $trimestreColor = '#f8fafc'; // Color por defecto
+                                        $trimestreClass = '';
+                                        
+                                        if ($dayEvents->count() > 0) {
+                                            $dayEvent = $dayEvents->first();
+                                            $isHoliday = $dayEvent->activity && stripos(strtolower($dayEvent->activity), 'feriado') !== false;
+                                            $trimestreColor = App\Http\Controllers\Settings\Calendar\CalendarDayController::getEventColorStatic(
+                                                $dayEvent->period, 
+                                                $isHoliday
+                                            );
+                                            
+                                            // Clase CSS basada en el trimestre
+                                            $periodUpper = strtoupper(trim($dayEvent->period));
+                                            if (str_contains($periodUpper, 'PRIMER')) {
+                                                $trimestreClass = 'trimestre-primero';
+                                            } elseif (str_contains($periodUpper, 'SEGUNDO')) {
+                                                $trimestreClass = 'trimestre-segundo';
+                                            } elseif (str_contains($periodUpper, 'TERCER')) {
+                                                $trimestreClass = 'trimestre-tercero';
+                                            }
+                                        }
+                                    @endphp
+
+                                    <div class="calendar-day min-h-24 p-2 border border-neutral-200 dark:border-neutral-700 
+                                        {{ !$isCurrentMonth ? 'bg-neutral-50 dark:bg-neutral-900 text-neutral-400' : 'bg-white dark:bg-neutral-800' }}
+                                        {{ $isToday ? 'ring-2 ring-blue-500' : '' }}
+                                        {{ $trimestreClass }}
+                                        relative group"
+                                        data-date="{{ $dateStr }}"
+                                        @if($dayEvents->count() > 0) style="border-left: 4px solid {{ $trimestreColor }}" @endif>
+                                        
+                                        <!-- Número del día -->
+                                        <div class="flex justify-between items-start mb-1">
+                                            <span class="text-sm font-medium {{ $isToday ? 'text-blue-600 dark:text-blue-400' : '' }}">
+                                                {{ $currentDay->day }}
+                                            </span>
+                                            @if($dayEvents->count() > 0)
+                                                <span class="text-xs px-1 rounded bg-neutral-100 dark:bg-neutral-700 text-neutral-700 dark:text-neutral-300">
+                                                    {{ $dayEvents->first()->period }}
+                                                </span>
+                                            @endif
+                                        </div>
+
+                                        <!-- Eventos del día -->
+                                        <div class="calendar-events space-y-1 max-h-20 overflow-y-auto">
+                                            @foreach($dayEvents as $event)
+                                                @php
+                                                    $isHolidayEvent = $event->activity && stripos(strtolower($event->activity), 'feriado') !== false;
+                                                    $eventColor = App\Http\Controllers\Settings\Calendar\CalendarDayController::getEventColorStatic(
+                                                        $event->period, 
+                                                        $isHolidayEvent
+                                                    );
+                                                @endphp
+                                                <div class="event-item text-xs p-1 rounded cursor-pointer hover:opacity-80 transition-opacity"
+                                                    style="background-color: {{ $eventColor }}; color: white;"
+                                                    onclick="window.location='{{ route('settings.calendar-days.edit', $event) }}'"
+                                                    title="{{ $event->activity }}">
+                                                    {{ Str::limit($event->activity, 20) }}
+                                                </div>
+                                            @endforeach
+                                        </div>
+
+                                        <!-- Tooltip para más información -->
+                                        @if($dayEvents->count() > 0)
+                                            <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all rounded z-10"
+                                                data-tippy-content="
+                                                    <div class='text-sm'>
+                                                        <strong>{{ $currentDay->translatedFormat('l, d F Y') }}</strong><br>
+                                                        @foreach($dayEvents as $event)
+                                                            <div class='mt-1'>
+                                                                <strong>Trimestre:</strong> {{ $event->period }}<br>
+                                                                <strong>Actividad:</strong> {{ $event->activity }}<br>
+                                                                <strong>Semana:</strong> {{ $event->week }}<br>
+                                                                <strong>Día:</strong> {{ $event->day_number }}
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                ">
                                             </div>
                                         @endif
                                     </div>
-                                @endif
+
+                                    @php
+                                        $currentDay->addDay();
+                                    @endphp
+                                @endfor
                             </div>
-                        @endfor
+                        </div>
                     </div>
-                    @if($dayNumber >= $daysInMonth) @break @endif
-                @endfor
+                </div>
+                
+                <!-- Panel Lateral - Eventos del Mes -->
+                <div class="w-full lg:w-1/3">
+                    <div class="bg-white dark:bg-neutral-800 rounded-lg shadow border border-neutral-200 dark:border-neutral-700">
+                        <!-- Header del Panel -->
+                        <div class="p-4 border-b border-neutral-200 dark:border-neutral-700">
+                            <h3 class="font-semibold text-lg text-neutral-800 dark:text-neutral-200">
+                                Eventos de {{ $currentMonth->translatedFormat('F') }}
+                            </h3>
+                            <p class="text-sm text-neutral-600 dark:text-neutral-400">
+                                {{ $monthEvents->count() }} eventos programados
+                            </p>
+                        </div>
+
+                        <!-- Lista de Eventos -->
+                        <div class="p-4 max-h-96 overflow-y-auto">
+                            @if($monthEvents->count() > 0)
+                                <div class="space-y-3">
+                                    @foreach($monthEvents as $event)
+                                        @php
+                                            $isHoliday = $event->activity && stripos(strtolower($event->activity), 'feriado') !== false;
+                                            $eventColor = App\Http\Controllers\Settings\Calendar\CalendarDayController::getEventColorStatic(
+                                                $event->period, 
+                                                $isHoliday
+                                            );
+                                        @endphp
+                                        
+                                        <a href="{{ route('settings.calendar-days.edit', $event) }}" 
+                                           class="block p-3 rounded-lg border-l-4 hover:bg-neutral-50 dark:hover:bg-neutral-700 transition-colors group"
+                                           style="border-left-color: {{ $eventColor }}">
+                                            <div class="flex justify-between items-start">
+                                                <div class="flex-1">
+                                                    <div class="flex items-center gap-2 mb-1">
+                                                        <div class="text-sm font-medium text-neutral-900 dark:text-neutral-100">
+                                                            {{ $event->date->format('d') }}
+                                                        </div>
+                                                        <div class="text-xs text-neutral-500 dark:text-neutral-400">
+                                                            {{ $event->date->translatedFormat('l') }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="font-semibold text-neutral-800 dark:text-neutral-200 group-hover:text-primary-600 dark:group-hover:text-primary-400">
+                                                        {{ $event->activity ?? 'Día lectivo' }}
+                                                    </div>
+                                                    <div class="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
+                                                        {{ $event->period }} • Semana {{ $event->week }} • Día {{ $event->day_number }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    @endforeach
+                                </div>
+                            @else
+                                <div class="text-center py-8 text-neutral-500 dark:text-neutral-400">
+                                    <i class="fas fa-calendar-times text-3xl mb-3"></i>
+                                    <p>No hay eventos programados para este mes</p>
+                                </div>
+                            @endif
+                        </div>
+
+                        <!-- Eventos Próximos -->
+                        <div class="p-4 border-t border-neutral-200 dark:border-neutral-700">
+                            <h4 class="font-semibold text-md mb-3 text-neutral-800 dark:text-neutral-200">
+                                Próximos Eventos
+                            </h4>
+                            <div class="space-y-2">
+                                @foreach($upcomingEvents as $event)
+                                    <a href="{{ route('settings.calendar-days.edit', $event) }}" 
+                                       class="flex items-center gap-3 p-2 rounded hover:bg-neutral-50 dark:hover:bg-neutral-700 transition-colors">
+                                        <div class="w-2 h-8 rounded-full" 
+                                             style="background-color: {{ App\Http\Controllers\Settings\Calendar\CalendarDayController::getEventColorStatic($event->period, stripos(strtolower($event->activity), 'feriado') !== false) }}"></div>
+                                        <div class="flex-1">
+                                            <div class="text-sm font-medium text-neutral-900 dark:text-neutral-100">
+                                                {{ $event->date->format('M d') }}
+                                            </div>
+                                            <div class="text-xs text-neutral-500 dark:text-neutral-400">
+                                                {{ Str::limit($event->activity, 30) }}
+                                            </div>
+                                        </div>
+                                    </a>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        
-        <!-- Botón para agregar evento -->
-        <div class="mt-4 text-center">
-            <a href="{{ route('settings.calendar-days.create') }}" 
-               class="btn btn-primary inline-flex items-center">
-                <i class="fas fa-plus mr-2"></i> Agregar Evento
-            </a>
-        </div>
-    </div>
-    
-    <!-- Panel de próximos eventos -->
-    <div class="w-full lg:w-1/3">
-        <div class="bg-neutral-50 dark:bg-neutral-700 rounded-lg p-4 h-full">
-            <h3 class="font-semibold text-lg mb-4 dark:text-white">Próximos Eventos</h3>
-            
-            @if($upcomingEvents->count())
-                <div class="space-y-3">
-                    @foreach($upcomingEvents as $event)
-                        <a href="{{ route('settings.calendar-days.edit', $event) }}" 
-                           class="block hover:bg-neutral-100 dark:hover:bg-neutral-600 p-3 rounded-lg transition-colors">
-                            <div class="flex justify-between items-start">
-                                <div>
-                                    <div class="font-medium text-sm text-neutral-600 dark:text-neutral-300">
-                                        {{ $event->date->translatedFormat('D, M d') }}
-                                    </div>
-                                    <div class="font-semibold dark:text-white">{{ $event->activity }}</div>
-                                </div>
-                                <div class="w-3 h-3 rounded-full mt-1" 
-                                     style="background-color: {{ $this->getEventColor($event->period, str_contains(strtolower($event->activity), 'feriado')) }}"></div>
-                            </div>
-                            <div class="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
-                                {{ $event->period }} • Semana {{ $event->week }}
-                            </div>
-                        </a>
-                    @endforeach
-                </div>
-            @else
-                <div class="text-center py-4 text-neutral-500 dark:text-neutral-400 italic">
-                    No hay eventos próximos en los próximos 7 días
-                </div>
-            @endif
-            
-            <!-- Vista rápida de hoy -->
-            @php
-                $todayEvents = $events->where('start', now()->format('Y-m-d'));
-            @endphp
-            @if($todayEvents->count())
-                <div class="mt-6 pt-4 border-t border-neutral-200 dark:border-neutral-600">
-                    <h4 class="font-semibold text-md mb-3 dark:text-white">Eventos de Hoy</h4>
-                    <div class="space-y-2">
-                        @foreach($todayEvents as $event)
-                            <div class="flex items-start gap-2 p-2 bg-neutral-100 dark:bg-neutral-600 rounded">
-                                <div class="w-2 h-2 rounded-full mt-2 flex-shrink-0" 
-                                     style="background-color: {{ $event['color'] }}"></div>
-                                <div>
-                                    <div class="font-medium">{{ $event['title'] }}</div>
-                                    <div class="text-xs text-neutral-500 dark:text-neutral-300">
-                                        {{ $event['extendedProps']['trimester'] }}
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            @endif
-        </div>
-    </div>
-</div>
         </div>
     </div>
 
     @push('scripts')
-        <script>
-         document.addEventListener('DOMContentLoaded', function() {
-    // Navegación del calendario
-    document.getElementById('prev-month').addEventListener('click', function() {
-        // Lógica para cambiar al mes anterior
-        window.location.href = "{{ route('settings.calendar-days.index') }}?month=" + 
-            new Date(document.getElementById('current-month').textContent + ' 1')
-            .setMonth(new Date(document.getElementById('current-month').textContent + ' 1').getMonth() - 1);
-    });
-
-    document.getElementById('next-month').addEventListener('click', function() {
-        // Lógica para cambiar al mes siguiente
-        window.location.href = "{{ route('settings.calendar-days.index') }}?month=" + 
-            new Date(document.getElementById('current-month').textContent + ' 1')
-            .setMonth(new Date(document.getElementById('current-month').textContent + ' 1').getMonth() + 1);
-    });
-
-    // Click en día para agregar evento
-    document.querySelectorAll('.calendar-day:not(.empty)').forEach(day => {
-        day.addEventListener('click', function() {
-            const date = this.getAttribute('data-date');
-            if (date) {
-                window.location.href = "{{ route('settings.calendar-days.create') }}?date=" + date;
-            }
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+    <script>
+        // Inicializar tooltips
+        tippy('[data-tippy-content]', {
+            allowHTML: true,
+            placement: 'top',
+            interactive: true,
         });
-    });
 
-    // Mostrar tooltips para eventos
-    tippy('.calendar-event', {
-        content(reference) {
-            return reference.getAttribute('title');
-        },
-    });
-});
-        </script>
+        // Navegación entre meses
+        function changeMonth(direction) {
+            const currentMonth = document.getElementById('current-month').textContent;
+            const date = new Date(currentMonth + ' 1');
+            date.setMonth(date.getMonth() + direction);
+            
+            const year = date.getFullYear();
+            const month = date.getMonth() + 1;
+            
+            // Recargar la página con el nuevo mes
+            const url = new URL(window.location.href);
+            url.searchParams.set('month', month);
+            url.searchParams.set('year', year);
+            window.location.href = url.toString();
+        }
+
+        // Auto-refresh cada 30 segundos para mantener los datos actualizados
+        setTimeout(() => {
+            window.location.reload();
+        }, 30000);
+    </script>
     @endpush
 
     @push('styles')
-        <style>
-           /* Estilos para el calendario */
-.calendar-container {
-    border: 1px solid #e2e8f0;
-    border-radius: 0.75rem;
-    overflow: hidden;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    <style>
+        /* Estilos para los trimestres */
+.trimestre-primero {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(99, 102, 241, 0.1) 100%) !important;
 }
 
-.calendar-header {
-    background-color: #f8fafc;
-    padding: 1rem;
-    border-bottom: 1px solid #e2e8f0;
+.trimestre-segundo {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, rgba(139, 92, 246, 0.1) 100%) !important;
 }
 
-.calendar-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
+.trimestre-tercero {
+    background: linear-gradient(135deg, rgba(236, 72, 153, 0.05) 0%, rgba(236, 72, 153, 0.1) 100%) !important;
 }
 
-.calendar-month-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: #1e293b;
+/* Estilos para modo oscuro */
+.dark .trimestre-primero {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(99, 102, 241, 0.15) 100%) !important;
 }
 
-.calendar-nav-button {
-    width: 2.5rem;
-    height: 2.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: background-color 0.2s;
+.dark .trimestre-segundo {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(139, 92, 246, 0.15) 100%) !important;
 }
 
-.calendar-nav-button:hover {
-    background-color: #e2e8f0;
+.dark .trimestre-tercero {
+    background: linear-gradient(135deg, rgba(236, 72, 153, 0.1) 0%, rgba(236, 72, 153, 0.15) 100%) !important;
 }
 
-.calendar-days-header {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    text-align: center;
-    font-weight: 600;
-    color: #64748b;
-    padding: 0.5rem 0;
+/* Colores de borde más pronunciados */
+.calendar-day[style*="border-left"] {
+    border-left-width: 6px !important;
 }
 
-.calendar-grid {
-    display: grid;
-    grid-template-rows: repeat(6, minmax(100px, 1fr));
-    background-color: white;
+/* Efecto hover mejorado */
+.calendar-day:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    z-index: 20;
 }
 
-.calendar-week {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-}
-
-.calendar-day {
-    border: 1px solid #e2e8f0;
-    padding: 0.5rem;
-    min-height: 100px;
-    position: relative;
-}
-
-.calendar-day.empty {
-    background-color: #f8fafc;
-}
-
-.calendar-day.today {
-    background-color: #eff6ff;
-}
-
+/* Estilos específicos para días con eventos */
 .calendar-day.has-events {
-    background-color: #f0fdf4;
+    border-bottom: 2px solid;
+    border-bottom-color: inherit;
 }
+        .calendar-day {
+            transition: all 0.2s ease;
+        }
 
-.calendar-day-number {
-    font-weight: 600;
-    margin-bottom: 0.25rem;
-}
+        .calendar-day:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+        }
 
-.calendar-events {
-    max-height: 80px;
-    overflow: hidden;
-}
+        .event-item {
+            font-size: 0.7rem;
+            line-height: 1.2;
+            word-break: break-word;
+        }
 
-.calendar-event {
-    font-size: 0.75rem;
-    padding: 0.25rem 0.5rem;
-    margin: 0.1rem 0;
-    border-radius: 0.25rem;
-    color: white;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    cursor: pointer;
-}
+        .calendar-events::-webkit-scrollbar {
+            width: 3px;
+        }
 
-.calendar-event-more {
-    font-size: 0.65rem;
-    color: #64748b;
-    text-align: center;
-    margin-top: 0.25rem;
-}
+        .calendar-events::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
 
-/* Modo oscuro */
-.dark .calendar-container {
-    border-color: #334155;
-    background-color: #1e293b;
-}
+        .calendar-events::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 10px;
+        }
 
-.dark .calendar-header {
-    background-color: #1e293b;
-    border-color: #334155;
-}
+        .calendar-events::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
 
-.dark .calendar-month-title {
-    color: #f8fafc;
-}
+        /* Estilos para modo oscuro */
+        .dark .calendar-events::-webkit-scrollbar-track {
+            background: #374151;
+        }
 
-.dark .calendar-nav-button:hover {
-    background-color: #334155;
-}
+        .dark .calendar-events::-webkit-scrollbar-thumb {
+            background: #6b7280;
+        }
 
-.dark .calendar-days-header {
-    color: #94a3b8;
-}
-
-.dark .calendar-grid {
-    background-color: #1e293b;
-}
-
-.dark .calendar-day {
-    border-color: #334155;
-}
-
-.dark .calendar-day.empty {
-    background-color: #1e293b;
-}
-
-.dark .calendar-day.today {
-    background-color: #1e3a8a;
-}
-
-.dark .calendar-day.has-events {
-    background-color: #14532d;
-}
-
-.dark .calendar-event-more {
-    color: #94a3b8;
-}
-        </style>
+        .dark .calendar-events::-webkit-scrollbar-thumb:hover {
+            background: #9ca3af;
+        }
+    </style>
     @endpush
 </x-layouts.app>

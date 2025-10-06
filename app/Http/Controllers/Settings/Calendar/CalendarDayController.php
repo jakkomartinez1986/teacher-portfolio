@@ -20,44 +20,78 @@ class CalendarDayController extends Controller
         $this->middleware('permission:borrar-calendarday')->only(['destroy']);
     }
 
-   public function index(Request $request)
-{
-    $selectedYear = $request->input('year_id');
-    $selectedTrimester = $request->input('trimester_id');
-    
-    $query = CalendarDay::with(['year', 'trimester'])
-        ->orderBy('date', 'asc');
+    public function index(Request $request)
+    {
+        $selectedYear = $request->input('year_id');
+        $selectedTrimester = $request->input('trimester_id');
+        $selectedMonth = $request->input('month', now()->month);
+        $selectedYearParam = $request->input('year', now()->year);
 
-    if ($selectedYear) {
-        $query->where('year_id', $selectedYear);
+        // Fecha actual para el calendario
+        $currentMonth = \Carbon\Carbon::create($selectedYearParam, $selectedMonth, 1);
+
+        $query = CalendarDay::with(['year', 'trimester'])
+            ->orderBy('date', 'asc');
+
+        if ($selectedYear) {
+            $query->where('year_id', $selectedYear);
+        }
+
+        if ($selectedTrimester) {
+            $query->where('trimester_id', $selectedTrimester);
+        }
+
+        // Obtener todos los días del mes actual para el calendario
+        $startOfMonth = $currentMonth->copy()->startOfMonth();
+        $endOfMonth = $currentMonth->copy()->endOfMonth();
+
+        $calendarDays = $query->whereBetween('date', [$startOfMonth, $endOfMonth])->get();
+
+        // Eventos del mes para el panel lateral
+        $monthEvents = $calendarDays->whereNotNull('activity')->sortBy('date');
+
+        // Próximos eventos (7 días)
+        $upcomingEvents = CalendarDay::where('date', '>=', now())
+                                    ->where('date', '<=', now()->addDays(7))
+                                    ->whereNotNull('activity')
+                                    ->orderBy('date')
+                                    ->get();
+
+        return view('pages.settings.calendar-days.index', [
+            'calendarDays' => $calendarDays,
+            'monthEvents' => $monthEvents,
+            'upcomingEvents' => $upcomingEvents,
+            'years' => Year::orderBy('year_name', 'desc')->get(),
+            'trimesters' => Trimester::all(),
+            'selectedYear' => $selectedYear,
+            'selectedTrimester' => $selectedTrimester,
+            'selectedMonth' => $selectedMonth,
+            'currentMonth' => $currentMonth,
+            'currentDate' => now()->format('Y-m-d')
+        ]);
     }
 
-    if ($selectedTrimester) {
-        $query->where('trimester_id', $selectedTrimester);
+    public static function getEventColorStatic($period, $isHoliday = false)
+    {
+        if ($isHoliday) {
+            return '#ef4444'; // Rojo para feriados
+        }
+
+        $colors = [
+            'PRIMERO' => '#6366f1',
+            'SEGUNDO' => '#8b5cf6', 
+            'TERCERO' => '#ec4899',
+            'PRIMER TRIMESTRE' => '#6366f1',
+            'SEGUNDO TRIMESTRE' => '#8b5cf6',
+            'TERCER TRIMESTRE' => '#ec4899',
+            'PRIMER TRIMESTRE' => '#6366f1',
+            'SEGUNDO TRIMESTRE' => '#8b5cf6', 
+            'TERCER TRIMESTRE' => '#ec4899'
+        ];
+        
+        $periodUpper = strtoupper(trim($period));
+        return $colors[$periodUpper] ?? '#3b82f6'; // Azul por defecto
     }
-
-    $events = $query->get()->map(function ($day) {
-        return $this->formatCalendarDay($day);
-    });
-
-    // Obtener próximos eventos (próximos 7 días)
-    $upcomingEvents = CalendarDay::where('date', '>=', now())
-                                ->where('date', '<=', now()->addDays(7))
-                                ->whereNotNull('activity')
-                                ->orderBy('date')
-                                ->get();
-
-    return view('pages.settings.calendar-days.index', [
-        'events' => $events,
-        'upcomingEvents' => $upcomingEvents,
-        'years' => Year::orderBy('year_name', 'desc')->get(),
-        'trimesters' => Trimester::all(),
-        'selectedYear' => $selectedYear,
-        'selectedTrimester' => $selectedTrimester,
-        'currentDate' => now()->format('Y-m-d')
-    ]);
-}
-
     protected function formatCalendarDay($day)
     {
         $isHoliday = $day->activity && stripos($day->activity, 'feriado') !== false;
@@ -210,4 +244,5 @@ class CalendarDayController extends Controller
     {
         return response()->download(public_path('storage/templates/calendar_days_import_template.xlsx'));
     }
+
 }
