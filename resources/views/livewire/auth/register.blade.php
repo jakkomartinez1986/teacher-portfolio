@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
+use Illuminate\Validation\Rules\Password;
 
 new #[Layout('components.layouts.auth')] class extends Component {
     public string $name = '';
@@ -33,7 +34,14 @@ new #[Layout('components.layouts.auth')] class extends Component {
             'cellphone' => ['required', 'regex:/[0-9]{9}/', 'size:10'],
             'address' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
-            'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
+            'password' => ['required', 'confirmed',
+             Password::min(8)
+                    ->letters()
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols()
+                    ->uncompromised()
+            , Rules\Password::defaults()],
         ]);
 
         $validated['name'] = strtoupper($validated['name']);

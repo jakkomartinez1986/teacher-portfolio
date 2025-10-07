@@ -242,6 +242,11 @@
     "Choose file": "Seleccionar",
     "No file chosen": "No se ha elegido ningún archivo",
     "Update your name and email address": "Actualize sus datos",
-    "Save Images": "Guardar Imagen"
+    "Save Images": "Guardar Imagen",
+    "New Profile Photo":"Nueva Foto de Perfil",
+    "Current Profile Photo":"Foto de perfil actual",
+    "Current Signature":"Firma actual",
+    "Optional":"Opcional",
+    "New Signature (Optional)":"Nueva Firma (Opcional)"
     
 }

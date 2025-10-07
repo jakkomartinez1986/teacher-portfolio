@@ -95,12 +95,10 @@ new class extends Component {
 <section class="w-full">
     @include('partials.settings-heading')
 
-  
     <x-settings.layout-foto :heading="__('Subir Imagen')" :subheading="__('Subir imagen de Perfil y de Firma')">        
         <livewire:settings.photo-user-form />
     </x-settings.layout-foto>
     <flux:separator variant="subtle" class="my-8" />
-
     <x-settings.layout :heading="__('Profile')" :subheading="__('Update your name and email address')">        
         <form wire:submit="updateProfileInformation" class="my-6 w-full space-y-6">
 

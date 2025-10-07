@@ -268,10 +268,10 @@ class DataPrincipalSeeder extends Seeder
             'Inicial',
             'Basica Preparatoria',
             'Basica Media',
-            'Ciencias Naturales y Biologia',
+            'Ciencias Naturales, Biologia y Fisica',
             'Educación Cultural y Artística',
             'Estudios Sociales',
-            'Fisica y Matematica',
+            'Matematica',
             'Lengua Extranjera',
             'Lengua y Literatura',
             'BT Comercio y Ventas -Emprendimiento',
@@ -296,10 +296,14 @@ class DataPrincipalSeeder extends Seeder
                 case 'Basica Media':
                         $materias = [ 'Matemáticas', 'Ciencias Naturales', 'Lengua y Literatura', 'Estudios Sociales'];
                         break;
-                case 'Ciencias Naturales y Biologia':
-                    $materias = [ 'Química',
+                case 'Ciencias Naturales, Biologia y Fisica':
+                    $materias = [ 'Ciencias Naturales',
+                    'Química',
+                    'Quimica Superior',
                     'Biología',
-                    'Ciencias Naturales'];
+                    'Biología Superior',
+                    'Fisica',
+                    'Fisica Superior'];
                     break;
                 case 'Educación Cultural y Artística':
                     $materias = [ 'Educación Cultural y Artística',
@@ -308,19 +312,21 @@ class DataPrincipalSeeder extends Seeder
                 case 'Estudios Sociales':
                     $materias = ['Estudios Sociales',
                     'Filosofía',
+                    'Historia',
                     'Educación para la Ciudadanía',
-                    'Historia'];
+                    'Investigacion Ciencia y Tecnoclogia'];
                     break;
-                case 'Fisica y Matematica':
+                case 'Matematica':
                     $materias = [ 'Matemáticas',
-                    'Física'];
+                    'Matematica Superior'];
                     break;
                 case 'Lengua Extranjera':
                     $materias = [ 'Inglés',
                     'Inglés Técnico Aplicado a Comercialización y Ventas'];
                     break;
                 case 'Lengua y Literatura':
-                    $materias = ['Lengua y Literatura'];
+                    $materias = ['Lengua y Literatura',
+                    'Animación a la lectura'];
                     break;
                 case 'BT Comercio y Ventas -Emprendimiento':
                     $materias = ['Emprendimiento y Gestión',
@@ -334,7 +340,13 @@ class DataPrincipalSeeder extends Seeder
                     $materias = ['Bases Fisiológicas',
                     'Actividades Recreativas',
                     'Entrenamiento Deportivo',
-                    'Educación Física'];
+                    'Educación Física',
+                    'Manejo de Grupos',
+                    'Organización de Eventos Recreativos y/o Deportivos',
+                    'Planificación y Evaluación en Recreación y Deportes',
+                    'Recursos Recreativos y Deportivos',
+                    'Seguridad y Primeros Auxilios'
+                    ];
                     break;
                 case 'BT Informatica':
                     $materias = [ 'Programación y Bases de Datos',

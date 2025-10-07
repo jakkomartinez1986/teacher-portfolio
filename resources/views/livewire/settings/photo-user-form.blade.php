@@ -45,7 +45,8 @@ new class extends Component {
     }
 };
 ?>
-<section class="mt-10 space-y-6">   
+<section class="mt-10 space-y-6">  
+     @include('partials.settings-heading')
     <form wire:submit="save" class="my-6 w-full space-y-6">
         <!-- Foto de perfil -->
         <div class="flex items-center gap-4 mb-4">
@@ -55,7 +56,7 @@ new class extends Component {
             </div>
         </div>
         
-        <flux:input type="file" wire:model="photo" label="New Profile Photo" required/>
+        <flux:input type="file" wire:model="photo" label="{{__('New Profile Photo')}}" required/>
         
         <!-- Firma actual (opcional) -->
         <div class="flex items-center gap-4 mb-4">
@@ -65,7 +66,7 @@ new class extends Component {
             </div>
         </div>
         
-        <flux:input type="file" wire:model="signature" label="New Signature (Optional)"/>
+        <flux:input type="file" wire:model="signature" label="{{__('New Signature (Optional)')}}"/>
         
         <div class="flex items-center gap-4">
             <flux:button variant="primary" type="submit" class="w-full">

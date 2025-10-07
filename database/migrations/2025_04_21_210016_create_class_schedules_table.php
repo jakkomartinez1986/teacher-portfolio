@@ -16,7 +16,9 @@ return new class extends Migration
             $table->foreignId('year_id')->constrained()->onDelete('cascade');
             $table->foreignId('teacher_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('subject_id')->constrained()->onDelete('cascade');
-            $table->foreignId('grade_id')->constrained()->onDelete('cascade');           
+            $table->foreignId('grade_id')->constrained()->onDelete('cascade');  
+            $table->foreignId('trimester_id')->nullable()->constrained()->onDelete('cascade'); // Nullable para horarios que aplican a todos los trimestres         
+            $table->enum('schedule_type', ['OFFICIAL', 'EVALUATION', 'TEST', 'MAKEUP']);
             $table->enum('day', ['LUNES', 'MARTES', 'MIÉRCOLES', 'JUEVES', 'VIERNES', 'SÁBADO']);
             $table->time('start_time');
             $table->time('end_time');
@@ -25,6 +27,9 @@ return new class extends Migration
             $table->text('notes')->nullable();
             $table->timestamps();
             $table->softDeletes();
+             // Índices
+            $table->index(['schedule_type', 'trimester_id', 'is_active']);
+            $table->index(['year_id', 'schedule_type']);
         });
     }
 
